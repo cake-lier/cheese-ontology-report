@@ -1,9 +1,11 @@
 ---
-title: 'Titolo'
+title: 'Cheese ontology'
 date: \today
 documentclass: report
 author: 
 - "Castellucci Matteo"
+- "Farabegoli Nicolas"
+- "Vitali Linda"
 header-includes:
 - |
   ```{=latex}
