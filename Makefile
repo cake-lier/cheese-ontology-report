@@ -1,6 +1,6 @@
 all: report
 
-SOURCES: example.md
+SOURCES: *.md
 
 report: ${SOURCES}
 	pandoc -o report.pdf --citeproc -N --metadata-file=metadata.yml --bibliography=bibliography.bib --csl=ieee.csl *.md
