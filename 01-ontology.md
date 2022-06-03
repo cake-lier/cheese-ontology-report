@@ -34,7 +34,7 @@ Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la
 
 ## Panoramica
 
-![Panoramica dell'ontologia `cheese-ontology`\label{fig:overview}](images/cheese-ontology-overwiew.svg){witdh=100%}
+![Panoramica dell'ontologia `cheese-ontology`\label{fig:overview}](images/generic-overview.svg){witdh=100%}
 
 ```{=latex}
 \begin{table}[H]
