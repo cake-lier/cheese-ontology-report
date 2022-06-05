@@ -34,7 +34,16 @@ Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la
 
 ## Panoramica
 
-![Panoramica dell'ontologia `cheese-ontology`\label{fig:overview}](images/generic-overview.svg){witdh=100%}
+L'ontologia modella i concetti principali che ruotano attorno al contesto dei formaggi.
+È stato modellato il concetto di formaggio identificato come cibo (definito da `foodon`), facendo distinzione tra i formaggi freschi e stagionati.
+La classe `RawMaterial` esprime il concetto di materia prima come ingrediante per la realizzazione del formaggio.
+Un formaggio può avere due tipi di invecchiamenti: maturazione e stagionatura.
+Per quanto riguarda il processo di stagionatura è prevista la distizione tra formaggi stagionati in cella, in fossa o in grotta; tali ambienti sono rappresentati dal concetto di `Environment` definito dall'ontologia `envo`.
+Infine è stato modellato il meccanismo delle certificazioni associate a formaggi e tipologie di latte impiegato nella relaizzazione del formaggio stesso.
+
+In [figura](#fig:overview) sono rappresentati i concetti appena illustrati e le loro principali relazioni.
+
+![Panoramica dell'ontologia `cheese-ontology`](images/generic-overview.svg){witdh=100% #fig:overview}
 
 ```{=latex}
 \begin{table}[H]
@@ -68,8 +77,6 @@ In tabella vengono sintetizzate le metriche relative alla `cheese-ontology`.
  \label{tab:metrics}
 \end{table}
 ```
-
-<!-- Aggiungere statistiche ontologia -->
 
 ## Cheese
 <!-- Linda -->
