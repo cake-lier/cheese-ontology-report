@@ -103,7 +103,7 @@ Di seguito vengono riportate le object property relative alla classe `Cheese`.
     hasRipening & Cheese & Ripening & isRipeningOf \\ \hline
     producedIn & Food & GeographicalFeature & isProductionPlaceOf \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di latte.}
+ \caption{\texttt{ObjectProperty} relative al concetto di formaggio.}
  \label{tab:milk}
 \end{table}
 ```
@@ -134,7 +134,7 @@ Di seguito vengono riportate le object property relative ai `RawMaterial`.
     isMadeWithRawMaterial & Cheese & RawMaterial & isRawMaterialUsedIn \\ \hline
     isMadeWithMold & Cheese & Mold & isMoldUsedIn \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di latte.}
+ \caption{\texttt{ObjectProperty} relative al concetto di ingrediente.}
  \label{tab:milk}
 \end{table}
 ```
@@ -193,13 +193,31 @@ La ObjectProperty `isMadeWithMilk` è l'inversa di `isMilkUsedIn`, in questo mod
 
 ## Environment
 <!-- Linda -->
-<!-- Aggiungere tabella con ObjectProperty e Classes -->
+La classe `Environment` rapprensenta l'ambiente in cui i formaggi possono maturare o stagionare.
+Infatti, sono stati identificati gli eventi `Aging` e `Ripening` collegati ad `Environment` tramite la _object property_ `locatedInEnvironment`.
+Inoltre, è possibile specificare dove si trova questo ambiente tramite la _object property_ `hasTakenPlaceIn` specificando la `GeographicalFeature`.
+Sono stati individuati tre tipi di ambiente per l'invecchiamento del formaggio e tutti e tre fanno parte dell'ontologia `envo`.
+Essi sono: la grotta `Cave`, la fossa `Pit` e la cella frigorifera `Refrigerator`.
 
-### Cave
+Di seguito vengono riportate le object property relative agli `Environment`.
 
-### Pit
-
-### Refrigerator
+```{=latex}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \hline
+    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
+    locatedInEnvironment & Event & Environment & isEnvironmentLocationOf \\ \hline
+    hasTakenPlaceIn & Event & GeographicalFeature & isPlaceWhere \\ \hline
+ \end{tabularx}
+ \caption{\texttt{ObjectProperty} relative al concetto di ambiente.}
+ \label{tab:milk}
+\end{table}
+```
+In questo caso, la _object property_ `locatedInEnvironment` ha come domain la classe `Event` e come range `Environmet` mentre
+`hasTakenPlaceIn` ha come domain `Event` e range `GeographicalFeature`
+ 
+![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.](images/environment.svg){width=100%}
 
 ## Event
 <!-- Nicolas -->
