@@ -186,7 +186,6 @@ quindi la ObjectProperty `isMadeWithMilk` non è altro che una specializzazione 
 mentre l'oggetto è un `MilkRawMaterial` dovuto al _range._
 Nel _range_ della ObjectProperty è specificata la classe `MilkRawMaterial` e non semplicemente `Milk` poiché si vuole catturare il concetto di
 "latte utilizzato per la realizzazione di un formaggio" e non solo latte come concetto di cibo generico.
-
 La ObjectProperty `isMadeWithMilk` è l'inversa di `isMilkUsedIn`, in questo modo aiutiamo in reasoner nel generare inferenze indirette.
 
 ![Diagramma delle classi che rappresenta le relazioni della classe `Milk`.](images/milk.svg){width=100%}
