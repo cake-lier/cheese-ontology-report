@@ -37,7 +37,7 @@ Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la
 L'ontologia modella i concetti principali che ruotano attorno al contesto dei formaggi.
 È stato modellato il concetto di formaggio identificato come cibo (definito da `foodon`), facendo distinzione tra i formaggi freschi e stagionati.
 La classe `RawMaterial` esprime il concetto di materia prima come ingrediante per la realizzazione del formaggio.
-Un formaggio può avere due tipi di invecchiamenti: maturazione e stagionatura.
+Un formaggio può avere due tipi di invecchiamento: maturazione e stagionatura.
 Per quanto riguarda il processo di stagionatura è prevista la distizione tra formaggi stagionati in cella, in fossa o in grotta; tali ambienti sono rappresentati dal concetto di `Environment` definito dall'ontologia `envo`.
 Infine è stato modellato il meccanismo delle certificazioni associate a formaggi e tipologie di latte impiegato nella relaizzazione del formaggio stesso.
 
@@ -80,10 +80,68 @@ In tabella vengono sintetizzate le metriche relative alla `cheese-ontology`.
 
 ## Cheese
 <!-- Linda -->
-<!-- Aggiungere tabella con ObjectProperty e Classes -->
+Per rappresentare il concetto di formaggio è stata utilizzata la classe `Cheese` sottoclasse di `Food` ed entrambe fanno parte dell'ontologia `foodon`.
+A sua volta  `Cheese` generalizza le classi
+ `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` ed essi possono essere prodotti dal corrisponendente tipo di latte.
+ Inoltre, sono state individuate le sottoclassi  `StretchedCurdCheese` e  `CreamCheese` per diversificare le tipologie di formaggio.
+E' stata fatta un'ulteriore distinzione tra formaggio fresco e formaggio stagionato, rispettivamente con le classi  `FreshCheese` e  `AgedCheese`.
+ Ogni tipologia di formaggio può essere composta da un certo tipo pasta (indentificata in questo caso dalla classe  `CheeseTexture`) e può essere solamente indicata dalle classi: `SoftCheese`  `SemiSoftCheese`  `Cheese`  `MediumHardCheese`  `HardCheese`.
+ Queste ultime fanno parte di `foodon` eccetto per la classe `MediumHardCheese` che è stata aggiunta nella _cheese ontology_.
+ Se un formaggio è indicato come `AgedCheese`, allora ha una certa durata di stagionatura ed è rappresentata dalla classe `Aging` che è a sua volta sottoclasse di `Event`.
+Un'altra sottoclasse di `Event` è `Ripening` e si riferisce alla maturazione del formaggio.
+È possibile specificare la provenienza di un formaggio definendo una `GeographicalFeature` dell'ontologia `geonames`.
+Di seguito vengono riportate le object property relative alla classe `Cheese`.
+
+```{=latex}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \hline
+    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
+    hasTexture & Cheese & CheeseTexture & isTextureOf \\ \hline
+    hasAging & Cheese & Aging & isAgingOf \\ \hline
+    hasRipening & Cheese & Ripening & isRipeningOf \\ \hline
+    producedIn & Food & GeographicalFeature & isProductionPlaceOf \\ \hline
+ \end{tabularx}
+ \caption{\texttt{ObjectProperty} relative al concetto di latte.}
+ \label{tab:milk}
+\end{table}
+```
+La _object property_ `hasTexture` permette di definire qual è la tipologia di pasta che compone il formaggio e, infatti, ha come range `Cheese` e mentre come domain `CheeseTexture`. 
+Inoltre, `hasAging` e `hasRipening`, che fanno in modo che si possano specificare rispettivamente tempo di stagionatura e di maturazione, hanno come domani `Cheese` e come range rispettivamente `Aging` e `Ripening`.
+Infine, la _object property_ `producedIn` ha come domain `Food` e dunque può essere utilizzata anche dalla classe `hasTexture`, ed è sotto proprietà di `locatedIn` quindi eredita il range `GeographicalFeature`.
+Si può infine notare che ogni _object property_ ha la corrispondente _object property_ inversa.
+
+![Diagramma delle classi che rappresenta la classe `Cheese` e le sue relazioni.](images/cheese.svg){width=100%}
 
 ## Raw Material
 <!-- Linda -->
+Il concetto di `RawMaterial` è stato introdotto per rappresentare gli ingredienti che compongono un  `Cheese`.
+Nel nostro caso infatti, sono stati individuati alcuni ingredienti fondamentali che provengono dall'ontologia `agrovoc`; Essi sono:  il latte `MilkRawMaterial`, il caglio `RennetRawMaterial`, il siero `Whey`, il sale `SaltRawMaterial`, l'acqua `WaterRawMaterial` e anche `CheeseRawMaterial` in quanto a volte una tipologia di formaggio può essere utilizzata come ingrediente per produrne un altro.
+Un altro ingrediente che non era presente in `agrovoc` è `MilkEnzyme` che abbiamo inserito ad hoc e che estende la classe `FoodManifactureEnzyme` dell'ontologia `foodon`.
+Si è scelto inoltre di rappresentare ogni ingrediente come sottoclasse del proprio `Food` di riferimento utilizzando le classi di `foodon` e `uberon`.
+La classe `Mold` invece, è stata introdotta come ingrediente per i formaggi cosiddetti "muffettati".
+Si introducono quindi i `Cheese` di tipo `MoldRipenedCheese` che si specializzano in `SoftRipenedCheese`, `SmearRipenedCheese` e `BlueCheese`.
+
+Di seguito vengono riportate le object property relative ai `RawMaterial`.
+
+```{=latex}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \hline
+    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
+    isMadeWithRawMaterial & Cheese & RawMaterial & isRawMaterialUsedIn \\ \hline
+    isMadeWithMold & Cheese & Mold & isMoldUsedIn \\ \hline
+ \end{tabularx}
+ \caption{\texttt{ObjectProperty} relative al concetto di latte.}
+ \label{tab:milk}
+\end{table}
+```
+La _object property_ `isMadeWithRawMaterial` serve quindi a specificare gli ingredienti di un determinato `Cheese` ed hanno come domain quest'ultimo e come range RawMaterial.
+`isMadeWithMold` invece, è una sottoproprietà di `isMadeWithRawMaterial` ed ha come range Mold.
+
+![Diagramma delle classi che rappresenta la classe `RawMaterial` e le sue relazioni.](images/rawMaterial.svg){width=100%}
 
 ## Milk
 <!-- Nicolas -->
