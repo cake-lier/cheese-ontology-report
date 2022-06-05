@@ -1,5 +1,5 @@
 # Conclusioni {.unnumbered}
-Il progetto ci ha permesso di approfondire alcuni aspetti delle tecnlogie _owl_, _rdf_/_rdfs_, _sparQL_ e _swrl_ nonché di comprendere appieno ciò che si trova dietro il mondo delle ontolgie.
+Il progetto ci ha permesso di approfondire alcuni aspetti delle tecnlogie _owl_, _rdf_/_rdfs_, _SPARQL_ e _swrl_ nonché di comprendere appieno ciò che si trova dietro il mondo delle ontolgie.
 Infatti, esplorando quelle già presenti in primis e infine implementando la nostra, abbiamo colto la grande complessità di realizzazione e tutto il lavoro che ancora è da fare in alcuni domini.
 
 In particolare, per quanto riguarda il mondo caseario, ci siamo spesso trovati a dover inserire classi fondamentali non trovate nelle grandi ontologie il cui obiettivo è quello di coprire tutto ciò che riguarda il cibo.
