@@ -8,8 +8,8 @@ A tal proposito la __cheese ontology__ fornisce una classificazione dettagliata 
 Fornisce quindi i possibili ingredienti che costituiscono un formaggio, i luoghi in cui può essere affinato o stagionato e infine le possibili certificazioni
 che può avere.
 
-I vantaggi offerti da questa ontologia sono innumerevoli: da un lato può essere struttata per migliorare e irrobustire i meccanismi di tracciabilità delle materie
-prime e dei formaggi stessi, implementatndo uno strato semantico che poi può essere sfruttato da chiunque (in un'otttica _open data_).
+I vantaggi offerti da questa ontologia sono innumerevoli: da un lato può essere sfruttata per migliorare e irrobustire i meccanismi di tracciabilità delle materie
+prime e dei formaggi stessi, implementando uno strato semantico che poi può essere sfruttato da chiunque (in un'ottica _open data_).
 Dall'altro lato può essere impiegata per la valorizzazione dei territori in un contesto turistico-alimentare.
 
 L'ontologia si basa su altre ontologie ben strutturate ed utilizzate a livello mondiale come `agrovoc` e `foodon`.
