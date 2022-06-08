@@ -17,7 +17,7 @@ La regola nasce principalmente per impedire che vengano creati _individuals_ dov
 che è realizzato da un latte non certificato. Inoltre, tale regola viene sfruttata dal reasoner che riesce a inferire automaticamente quali formaggi
 sono certificati e quali no.
 
-```
+```prolog
 obo:FOODON_00001013(?cheese) ^
 isMadeWithMilk(?cheese, ?milk) ^
 ProtectedMilkRawMaterial(?milk) -> food-cheese:Formaggio(?cheese)
@@ -29,10 +29,10 @@ La regola definisce che per ogni formaggio generico (`Cheese`) realizzato da un 
 ## Regola 2
 
 Con questa regola si vuole vincolare il fatto che il processo di maturazione di un formaggio non superi i 30 giorni.
-Infatti, per come è definito il processo di maturazione non ha senso specificare che un formaggio ha una maturazione di 60 giorni poiché in tal caso 
+Infatti, per come è definito il processo di maturazione non ha senso specificare che un formaggio ha una maturazione di 60 giorni poiché in tal caso
 si parlerebbe di stagionatura.
 
-```
+```prolog
 hasRipeningDuration(?r, ?d) ^ Ripening(?r) ->
 swrlb:greaterThanOrEqual(?d, 1) ^
 swrlb:lessThanOrEqual(?d, 30)
@@ -47,7 +47,7 @@ Con questa regola si vincola il fatto che la fase di stagionatura di un formaggi
 Infatti, per come è definita la stagionatura, questa deve avere un periodo minimo di 30 giorni.
 Nell'ontologia il valore espresso dalla stagionatura è espresso in mesi, ciò significa che il periodo deve essere di almeno 1 mese.
 
-```
+```prolog
 Aging(?a) ^ hasAgingDuration(?a, ?d) -> swrlb:greaterThanOrEqual(?d, 1)
 ```
 

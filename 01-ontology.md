@@ -59,6 +59,7 @@ In [figura](#fig:overview) sono rappresentati i concetti appena illustrati e le 
 ```
 
 In tabella vengono sintetizzate le metriche relative alla `cheese-ontology`.
+
 ```{=latex}
 \begin{table}[H]
     \centering
@@ -107,7 +108,8 @@ Di seguito vengono riportate le object property relative alla classe `Cheese`.
  \label{tab:milk}
 \end{table}
 ```
-La _object property_ `hasTexture` permette di definire qual è la tipologia di pasta che compone il formaggio e, infatti, ha come range `Cheese` e mentre come domain `CheeseTexture`. 
+
+La _object property_ `hasTexture` permette di definire qual è la tipologia di pasta che compone il formaggio e, infatti, ha come range `Cheese` e mentre come domain `CheeseTexture`.
 Inoltre, `hasAging` e `hasRipening`, che fanno in modo che si possano specificare rispettivamente tempo di stagionatura e di maturazione, hanno come domani `Cheese` e come range rispettivamente `Aging` e `Ripening`.
 Infine, la _object property_ `producedIn` ha come domain `Food` e dunque può essere utilizzata anche dalla classe `hasTexture`, ed è sotto proprietà di `locatedIn` quindi eredita il range `GeographicalFeature`.
 Si può infine notare che ogni _object property_ ha la corrispondente _object property_ inversa.
@@ -138,6 +140,7 @@ Di seguito vengono riportate le object property relative ai `RawMaterial`.
  \label{tab:milk}
 \end{table}
 ```
+
 La _object property_ `isMadeWithRawMaterial` serve quindi a specificare gli ingredienti di un determinato `Cheese` ed hanno come domain quest'ultimo e come range RawMaterial.
 `isMadeWithMold` invece, è una sottoproprietà di `isMadeWithRawMaterial` ed ha come range Mold.
 
@@ -153,7 +156,7 @@ La classe `MixedMilk` rappresenta un miscuglio di tipologie latti impiegati nell
 trovare tipologie di formaggi derivati dall'unione di più latti.
 
 Oltre a rappresentare le diverse tipologie di latte, sono state catturate anche le possibili caratteristiche che possono essere
-parte di un latte: la classe `RawMilk` indentifica un latte crudo, ovvero un tipo di latte che non ha subito un processo di 
+parte di un latte: la classe `RawMilk` indentifica un latte crudo, ovvero un tipo di latte che non ha subito un processo di
 pastorizzazione prima di essere impiegato della produzione di formaggio; al contrario troviamo invece la classe `PasteurizedMilk`
 che rappresenta un tipo di latte che ha subito un processo di pastorizzazione prima di essere impiegato della realizzazione del formaggio.
 
@@ -166,6 +169,7 @@ Quindi per ogni tipo di latte esiste il corrispondente tipo di formaggio.
 
 Ciò che lega un tipo di latte con il relativo tipo di formaggio è la _ObjectProperty_ `isMadeWithMilk`.
 In tabella vengono mostrate le ObjectProperty inerenti al concetto di latte.
+
 ```{=latex}
 \begin{table}[H]
     \centering
@@ -213,9 +217,10 @@ Di seguito vengono riportate le object property relative agli `Environment`.
  \label{tab:milk}
 \end{table}
 ```
+
 In questo caso, la _object property_ `locatedInEnvironment` ha come domain la classe `Event` e come range `Environmet` mentre
 `hasTakenPlaceIn` ha come domain `Event` e range `GeographicalFeature`
- 
+
 ![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.](images/environment.svg){width=100%}
 
 ## Event
@@ -258,7 +263,7 @@ Anche in questo caso, come per la stagionatura, è stato indicato che questa pro
 Il meccanismo delle certificazioni rappresenta una caratteristica molto importante all'interno dell'ontologia.
 Osservando il diagramma in figura emergono le seguenti classi: `ProtectedName` ovvero il concetto di certificazione di un prodotto,
 `ProtectedFood` ovvero un determinato cibo con una specifica certificazione, `ProtectedCheeseName` che rappresenta un formaggio con
-una certificazione e infine `ProtectedMilkRawMaterial` che rappresenta un latte certificato utilizzato nella produzione di 
+una certificazione e infine `ProtectedMilkRawMaterial` che rappresenta un latte certificato utilizzato nella produzione di
 un formaggio con una specifica certificazione.
 
 La distizione tra `ProtectedRicotta` e `ProtectedCheese` deriva dal fatto che la ricotta non è classificata come formaggio, ma allo stesso tempo
@@ -282,4 +287,3 @@ predicato è applicato l'oggetto è considerato come un cibo certificato e l'ogg
 Sfruttando l'ontologia messa a disposizione dal ministero, si è ricostrutita la gerarchia delle certificazioni presenti in Italia.
 L'adozione di tale ontologia abilita l'interoperabilità di __cheese ontology__ con eventuali altre ontologie che descrivono e rappresentano altri
 prodotti che possono avere certificazioni sfruttando come ponte l'ontologia del ministero.
-

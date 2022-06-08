@@ -25,7 +25,7 @@ ORDER BY ?label
 ## Query #2
 
 Lo scenario immaginato è un consumatore particolarmente attento a identificare formaggi di qualità che possiedono una certificazione,
-in questo caso non è interessato ad una specifica certificazione ma è interessato a trovare tutti i formaggi che ne hanno una. A tal 
+in questo caso non è interessato ad una specifica certificazione ma è interessato a trovare tutti i formaggi che ne hanno una. A tal
 proposito si è definita la seguente query:
 
 ```sql
@@ -35,7 +35,7 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 SELECT ?cheese ?label ?protectedname
 WHERE {
     ?cheese a/rdfs:label "ProtectedCheese"@en.
-	
+ 
     OPTIONAL { ?cheese :hasProtectedName ?protectedname }
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -113,24 +113,24 @@ SELECT ?cheese ?cheeselabel ?milk ?milklabel ?animal
 WHERE {
     ?cheese :isMadeWithMilk ?milk.
     { 
-    	?milk a/rdfs:label "CowMilk"@en.
-    	VALUES ?animal { "Formaggio di mucca" }
-  	}
+     ?milk a/rdfs:label "CowMilk"@en.
+     VALUES ?animal { "Formaggio di mucca" }
+    }
     UNION
     { 
-    	?milk a/rdfs:label "SheepMilk"@en.
-    	VALUES ?animal { "Formaggio di pecora" }
-  	}
+     ?milk a/rdfs:label "SheepMilk"@en.
+     VALUES ?animal { "Formaggio di pecora" }
+    }
     UNION
     { 
-    	?milk a/rdfs:label "GoatMilk"@en.
-    	VALUES ?animal { "Formaggio di capra" }
-  	}
+     ?milk a/rdfs:label "GoatMilk"@en.
+     VALUES ?animal { "Formaggio di capra" }
+    }
     UNION
     { 
-    	?milk a/rdfs:label "BuffaloMilk"@en.
-    	VALUES ?animal { "Formaggio di bufala" }
-  	}
+     ?milk a/rdfs:label "BuffaloMilk"@en.
+     VALUES ?animal { "Formaggio di bufala" }
+    }
 
     OPTIONAL { ?milk rdfs:label ?milklabel }
     OPTIONAL { ?cheese rdfs:label ?cheeselabel }
@@ -148,8 +148,8 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label
 WHERE {
-  	?cheese a/rdfs:label "CreamCheese"@en.
-  	?cheese a :FreshCheese.
+   ?cheese a/rdfs:label "CreamCheese"@en.
+   ?cheese a :FreshCheese.
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -167,8 +167,8 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label
 WHERE {
-  	?cheese :isMadeWithRawMaterial/a :VegetalRennet.
-  	?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en.
+   ?cheese :isMadeWithRawMaterial/a :VegetalRennet.
+   ?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en.
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -185,23 +185,23 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label ?type
 WHERE {
-  	{ ?cheese a/rdfs:label "SoftCheese"@en. }
-  	UNION
+   { ?cheese a/rdfs:label "SoftCheese"@en. }
+   UNION
     { ?cheese a/rdfs:label "SemiSoftCheese"@en. }
     {
-    	?cheese a/rdfs:label "BlueCheese"@en.
-    	VALUES ?type { "Formaggio erborinato" }
-  	}
-  	UNION
-  	{
-    	?cheese a :SmearRipenedCheese
-    	VALUES ?type { "Formaggio a crosta lavata" }
-  	}
-  	UNION
-  	{
-    	?cheese a/rdfs:label "SoftRipenedCheese"@en.
-    	VALUES ?type { "Formaggio a crosta fiorita" }
-  	}
+     ?cheese a/rdfs:label "BlueCheese"@en.
+     VALUES ?type { "Formaggio erborinato" }
+   }
+   UNION
+   {
+     ?cheese a :SmearRipenedCheese
+     VALUES ?type { "Formaggio a crosta lavata" }
+   }
+   UNION
+   {
+     ?cheese a/rdfs:label "SoftRipenedCheese"@en.
+     VALUES ?type { "Formaggio a crosta fiorita" }
+   }
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -218,9 +218,9 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT DISTINCT ?cheese ?label
 WHERE {
-  	?cheese rdfs:label ?label.
-  	
-  	FILTER(regex(?label, "Mambelli"))
+   ?cheese rdfs:label ?label.
+   
+   FILTER(regex(?label, "Mambelli"))
 }
 ORDER BY ?label
 ```
