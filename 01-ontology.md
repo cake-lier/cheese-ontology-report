@@ -170,6 +170,8 @@ Quindi per ogni tipo di latte esiste il corrispondente tipo di formaggio.
 Ciò che lega un tipo di latte con il relativo tipo di formaggio è la _ObjectProperty_ `isMadeWithMilk`.
 In tabella vengono mostrate le ObjectProperty inerenti al concetto di latte.
 
+![Diagramma delle classi che rappresenta le relazioni della classe `Milk`.](images/milk.svg){width=100%}
+
 ```{=latex}
 \begin{table}[H]
     \centering
@@ -191,8 +193,6 @@ mentre l'oggetto è un `MilkRawMaterial` dovuto al _range._
 Nel _range_ della ObjectProperty è specificata la classe `MilkRawMaterial` e non semplicemente `Milk` poiché si vuole catturare il concetto di
 "latte utilizzato per la realizzazione di un formaggio" e non solo latte come concetto di cibo generico.
 La ObjectProperty `isMadeWithMilk` è l'inversa di `isMilkUsedIn`, in questo modo aiutiamo in reasoner nel generare inferenze indirette.
-
-![Diagramma delle classi che rappresenta le relazioni della classe `Milk`.](images/milk.svg){width=100%}
 
 ## Environment
 <!-- Linda -->
@@ -223,6 +223,8 @@ In questo caso, la _object property_ `locatedInEnvironment` ha come domain la cl
 
 ![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.](images/environment.svg){width=100%}
 
+\newpage
+
 ## Event
 <!-- Nicolas -->
 <!-- Aggiungere tabella con ObjectProperty e Classes -->
@@ -237,7 +239,9 @@ Questi due caratteristiche sono catturate da due `DataProperty`: `hasAgingDurati
 tale periodo è espresso in mesi; `hasRipeningDuration` esprime il periodo di maturazione di un formaggio espresso in giorni.
 In entrabe le proprietà i due valori sono rappresentati da un intero positivo (`xsd:positiveInteger`).
 
-![Diagramma che mostra il concetto di `Event` e le sue relazione con le altre classi.](images/event.svg){width=100%}
+![Diagramma che mostra il concetto di `Event` e le sue relazione con le altre classi.](images/event.svg){width=95%}
+
+\newpage
 
 ### Aging
 <!-- Aggiungere tabella con ObjectProperty e Classes -->
