@@ -3,7 +3,7 @@
 La realizzazione delle query SPARQL si è basata su scenari d'uso reali in cui l'ontologia ricopre un ruolo fondamentale per l'accesso alla conoscenza e il recupero di informazioni inerenti al dominio in oggetto che siano utili e pertinenti.
 Per questo motivo, ogni _query_ sarà preceduta da una breve descrizione del contesto per cui si è immaginato il suo utilizzo, benché questo non rappresenti in maniera esaustiva tutti gli scenari in cui sia utile l'impiego di quella _query_.
 
-## Query #1
+## Query 1
 
 Un consumatore vuole informarsi su tutti quei formaggi che hanno come caratteristica un periodo di maturazione del prodotto compreso tra i 5 e i 20 giorni.
 Inoltre, il consumatore è interessato a scoprire, per ognuno di quei formaggi, la durata esatta del periodo di maturazione.
@@ -22,7 +22,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #2
+## Query 2
 
 Nell'ambito di un corso di formazione di assaggiatori di formaggi, si vuole mostrare quali siano tutti quei formaggi che sono considerati di qualità.
 In particolare, per formaggio di qualità, si intende un formaggio che possiede una certificazione, qualunque essa sia, purché definita tale dall'Unione Europea o dal Ministero delle Politiche Agricole e rilasciata da quest'ultimo.
@@ -42,7 +42,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #3
+## Query 3
 
 Un consumatore è particolarmente appassionato del sapore pungente che la fossa dona ai formaggi che vengono affinati in essa.
 Vuole quindi scoprire in quale fossa sono stati affinati i formaggi che appartengono a questa categoria, per comprendere le differenze in termini di gusto che le diverse fosse sono in grado di garantire.
@@ -62,7 +62,7 @@ WHERE {
 ORDER BY ?cheeselabel
 ```
 
-## Query #4
+## Query 4
 
 Un consumatore curioso è intenzionato a scoprire se esistono differenze tra i formaggi prodotti da latte crudo rispetto a quelli da latte pastorizzato.
 Per di più, vuole sapere se anche il tipo di latte introduce delle differenze a livello gustativo.
@@ -83,7 +83,7 @@ WHERE {
 ORDER BY ?cheeselabel
 ```
 
-## Query #5
+## Query 5
 
 Le "Saline di Cervia" vogliono iniziare una nuova campagna di valorizzazione del loro prodotto.
 A tal proposito, l'associazione pensa che il modo migliore sia farlo promuovendo i formaggi realizzati utilizzando il sale di Cervia.
@@ -102,7 +102,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #6
+## Query 6
 
 Una fattoria educativa decide di attivare un centro estivo durante il quale si vuole fare un'attività che coinvolga i bambini con lo scopo di insegnare loro alcune caratteristiche dei formaggi.
 In particolar modo, vuole insegnare quali sono i diversi animali che possono produrre latte, il quale viene poi utilizzato nella produzione di formaggi.
@@ -141,7 +141,7 @@ WHERE {
 ORDER BY ?cheeselabel
 ```
 
-## Query #7
+## Query 7
 
 Un consumatore attento alla propria salute ha notato che da qualche tempo fa fatica a digerire i formaggi che mangia.
 Dopo essersi rivolto al suo nutrizionista, gli è stato consigliato di mangiare solamente formaggi ad alta digeribilità.
@@ -163,7 +163,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #8
+## Query 8
 
 Un consumatore precedentemente scettico ha scoperto da poco la sua passione per i formaggi erborinati e vuole assaggiarne di nuovi i quali possano essere spalmati oppure affettati.
 Per questo motivo, decide di ricercare tutti i formaggi che sono stati prodotti con l'aiuto di muffe, sia che la muffa si trovi all'interno del formaggio, sia che si trovi sulla crosta, e che possano essere consumati così come piace a lui, distinguendoli tra le diverse categorie.
@@ -197,7 +197,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #9
+## Query 9
 
 Un consumatore molto interessato al processo produttivo dei vari formaggi che conosce vuole sapere se esistono formaggi che vengono prodotti a partire da altri formaggi.
 Per questo motivo, interroga la _knowledge base_ in tal senso.
@@ -215,7 +215,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #10
+## Query 10
 
 Il Comune di Bertinoro ha indetto un evento di promozione del territorio a tema formaggio, in collaborazione con i caseifici locali, in modo tale che questi mettano a disposizione le informazioni sui formaggi che sono prodotti all'interno del Comune.
 Sapendo questo, un partecipante all'evento decide di voler sapere quali sono i formaggi che sono prodotti dal caseificio "Mambelli".
@@ -239,7 +239,7 @@ WHERE {
 ORDER BY ?label
 ```
 
-## Query #11
+## Query 11
 
 Per motivazioni statistiche, il Ministero delle Politiche Agricole sta raccogliendo informazioni sulla produzione casearia sul territorio italiano.
 In particolare, il Ministero è interessato a sapere la distribuzione della produzione delle diverse tipologie di formaggio nelle varie città italiane.
@@ -270,7 +270,7 @@ GROUP BY ?city ?citylabel ?region
 ORDER BY ?citylabel
 ```
 
-## Query #12
+## Query 12
 
 "Slow Food" è interessata a creare la nuova mappa dei formaggi certificati italiani, per promuovere la conoscenza sulle eccellenze italiane.
 Deve perciò raccogliere le informazioni in merito ai formaggi certificati che vengono attualmente prodotti in Italia, dividendoli per ciascuna regione.
@@ -297,7 +297,7 @@ GROUP BY ?cheese ?cheeselabel ?region
 ORDER BY ?regionlabel
 ```
 
-## Query #13
+## Query 13
 
 La Provincia di Forlì-Cesena è a conoscenza della presenza di numerose fosse sul suo territorio dedite alla stagionatura del formaggio, che sono impiegate nella produzione di formaggi certificati.
 Per questo motivo, vuole scoprire quali fosse in quali città si occupano della produzione di certi formaggi, con il fine di valorizzarle a fini turistici.
@@ -331,7 +331,7 @@ WHERE {
 ORDER BY ?citylabel
 ```
 
-## Query #14
+## Query 14
 
 Un consumatore vegetariano inesperto si chiede se esistano formaggi che è in grado di poter mangiare.
 Questo significa che nell'intero processo produttivo non devono essere impiegati prodotti derivati da carne animale, cioè il caglio.

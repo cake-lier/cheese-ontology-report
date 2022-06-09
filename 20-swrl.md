@@ -1,55 +1,70 @@
 # Regole SWRL
 
-Le regole SWRL consentono di aumentare l'espressività dell'ontologia rispetto a quello che è in grado di fornire OWL.
+Le regole SWRL consentono di aumentare l'espressività dell'ontologia rispetto a quanto in grado di fare OWL.
 
-Tuttavia, la natura del dominio scelto non cattura vincoli o relazioni complesse a tal punto che il linguaggio OWL non riesca a rappresentare;
-ciononostante abbiamo definito alcune regole SWRL che modellano alcuni vincoli fondamentali del dominio in esame.
-
-Tali regole, come indicato in precedenza, possono essere definite anche mediante OWL, ma per motivi di praticità e leggibilità di tali vincoli
-è stato deciso di scriverele sfruttando SWRL.
+Tuttavia, la natura del dominio scelto non necessita di modellare vincoli o relazioni così complesse che il linguaggio OWL non riesca a rappresentare e perciò tali da giustificare l'utilizzo di SWRL.
+Ciononostante, sono state definite comunque alcune regole capaci di modellare vincoli fondamentali del dominio in esame così da mostrare la maggiore espressività di SWRL.
+Tali regole, infatti, possono essere definite anche mediante OWL, ma sarebbero di più difficile lettura e comprensione.
 
 ## Regola 1
 
-Con la prima regola si vuole vincolare il fatto che se un formaggio è realizzato da un latte certificato, allora anche il formaggio è certificato.
-Ovviamente questa regola non aderisce perfettamente alla realtà dei fatti, ma a fini didattici tale vincolo può essere accettato.
+La prima regola permette di vincolare il fatto che se un formaggio è realizzato a partire da un latte che può essere usato per formaggi certificati, allora anche il formaggio è certificato.
 
-La regola nasce principalmente per impedire che vengano creati _individuals_ dove viene contrassegnato come certificato un formaggio
-che è realizzato da un latte non certificato. Inoltre, tale regola viene sfruttata dal reasoner che riesce a inferire automaticamente quali formaggi
-sono certificati e quali no.
-
-```prolog
-obo:FOODON_00001013(?cheese) ^
-isMadeWithMilk(?cheese, ?milk) ^
-ProtectedMilkRawMaterial(?milk) -> food-cheese:Formaggio(?cheese)
+```{=latex}
+\begin{align*}
+    \forall c \forall m (&Cheese(c) \land isMadeWithMilk(c, m) \land ProtectedMilkRawMaterial(m)\\
+                         &\implies ProtectedCheese(c))
+\end{align*}
 ```
 
-La regola definisce che per ogni formaggio generico (`Cheese`) realizzato da un certo tipo di latte e questo latte è certificato, allora quel formaggio
-è un formaggio certificato.
+Questa regola non aderisce perfettamente alla realtà dei fatti, ma tale vincolo è stato ritenuto sufficiente per la modellazione del nostro dominio.
+La regola nasce principalmente per poter fare in modo che tutti i formaggi ottenuti da latte certificato guadagnino automaticamente lo status di formaggi certificati, senza bisogno di etichettarli manualmente.
+Qui di seguito si mostra la regola codificata in SWRL:
+
+```prolog
+obo:FOODON_00001013(?c) ^
+isMadeWithMilk(?c, ?m) ^
+ProtectedMilkRawMaterial(?m) 
+-> food-cheese:Formaggio(?c)
+```
 
 ## Regola 2
 
-Con questa regola si vuole vincolare il fatto che il processo di maturazione di un formaggio non superi i 30 giorni.
-Infatti, per come è definito il processo di maturazione non ha senso specificare che un formaggio ha una maturazione di 60 giorni poiché in tal caso
-si parlerebbe di stagionatura.
+Questa regola vincola il fatto che il processo di maturazione di un formaggio è un numero intero positivo espresso in giorni che non può superare il valore di 30.
+
+```{=latex}
+\begin{align*}
+    \forall r \forall d (&Ripening(r) \land hasRipeningDuration(r, d)\\
+                         &\implies d \in \mathbb{N} \land d \ge 1 \land d \le 30)
+\end{align*}
+```
+
+Infatti, il processo di maturazione è definito come tale solo se il suo numero di giorni non supera il valore di 30.
+In quest'ultimo caso, si parlerebbe di "stagionatura" del formaggio e non di "maturazione".
+Qui di seguito si mostra la regola codificata in SWRL:
 
 ```prolog
-hasRipeningDuration(?r, ?d) ^ Ripening(?r) ->
+hasRipeningDuration(?r, ?d) ^ 
+Ripening(?r) ->
 swrlb:greaterThanOrEqual(?d, 1) ^
 swrlb:lessThanOrEqual(?d, 30)
 ```
 
-La regola definisce che ovunque sia specificata la _data property_ `hasRipeningDuration` il valore associato deve essere compreso tra 1 e 30, che in
-questo caso rappresentano i giorni.
-
 ## Regola 3
 
-Con questa regola si vincola il fatto che la fase di stagionatura di un formaggio deve essere di almeno un mese.
-Infatti, per come è definita la stagionatura, questa deve avere un periodo minimo di 30 giorni.
-Nell'ontologia il valore espresso dalla stagionatura è espresso in mesi, ciò significa che il periodo deve essere di almeno 1 mese.
+Questa regola vincola il fatto che il processo di stagionatura di un formaggio è un numero intero positivo espresso in mesi.
+
+```{=latex}
+\begin{align*}
+    \forall a \forall d (&Aging(a) \land hasAgingDuration(a, d)\\
+                         &\implies d \in \mathbb{N} \land d \ge 1)
+\end{align*}
+```
+
+Infatti, il processo di stagionatura è definito tale solo se il suo numero di giorni è strettamente superiore ai 30.
+In caso contrario, come detto in precedenza, si parlerebbe di "maturazione" del formaggio e non di "stagionatura".
+Qui di seguito si mostra la regola codificata in SWRL:
 
 ```prolog
 Aging(?a) ^ hasAgingDuration(?a, ?d) -> swrlb:greaterThanOrEqual(?d, 1)
 ```
-
-La regola specifica che ovunque sia applicata la _data property_ `hasAgingDuration`, il valore associato deve essere maggiore di 1, che in questo
-case rappresenta i mesi di stagionatura.
