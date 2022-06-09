@@ -1,7 +1,7 @@
 # Query SPARQL
 
 La realizzazione delle query SPARQL si è basata su scenari d'uso reali in cui l'ontologia ricopre un ruolo fondamentale per l'accesso alla conoscenza e il recupero di informazioni inerenti al dominio in oggetto che siano utili e pertinenti.
-Per questo motivo, ogni _query_ sarà preceduta da una breve descrizione del contesto per cui si è immaginato il suo utilizzo, benché questo non rappresenti in maniera esaustiva tutti gli scenari in qui sia utile l'impiego di quella _query_.
+Per questo motivo, ogni _query_ sarà preceduta da una breve descrizione del contesto per cui si è immaginato il suo utilizzo, benché questo non rappresenti in maniera esaustiva tutti gli scenari in cui sia utile l'impiego di quella _query_.
 
 ## Query #1
 
@@ -228,7 +228,7 @@ SELECT ?cheese ?label
 WHERE {
     ?cheese a/rdfs:label "Cheese"@en.
   
-    FILTER(REGEX(str(?cheese), "Mambelli"))
+    FILTER(REGEX(STR(?cheese), "Mambelli"))
   
     OPTIONAL {
         ?cheese rdfs:label ?label.
@@ -241,7 +241,9 @@ ORDER BY ?label
 
 ## Query #11
 
-
+Per motivazioni statistiche, il Ministero delle Politiche Agricole sta raccogliendo informazioni sulla produzione casearia sul territorio italiano.
+In particolare, il Ministero è interessato a sapere la distribuzione della produzione delle diverse tipologie di formaggio nelle varie città italiane.
+Per questo motivo, raccoglie il numero di formaggi prodotti per ogni città, accompagnato dalla regione in cui queste si trovano per motivi di disambiguazione.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -270,6 +272,9 @@ ORDER BY ?citylabel
 
 ## Query #12
 
+"Slow Food" è interessata a creare la nuova mappa dei formaggi certificati italiani, per promuovere la conoscenza sulle eccellenze italiane.
+Deve perciò raccogliere le informazioni in merito ai formaggi certificati che vengono attualmente prodotti in Italia, dividendoli per ciascuna regione.
+
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dbo: <http://dbpedia.org/ontology/>
@@ -293,6 +298,9 @@ ORDER BY ?regionlabel
 ```
 
 ## Query #13
+
+La Provincia di Forlì-Cesena è a conoscenza della presenza di numerose fosse sul suo territorio dedite alla stagionatura del formaggio, che sono impiegate nella produzione di formaggi certificati.
+Per questo motivo, vuole scoprire quali fosse in quali città si occupano della produzione di certi formaggi, con il fine di valorizzarle a fini turistici.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -325,15 +333,17 @@ ORDER BY ?citylabel
 
 ## Query #14
 
+Un consumatore vegetariano inesperto si chiede se esistano formaggi che è in grado di poter mangiare.
+Questo significa che nell'intero processo produttivo non devono essere impiegati prodotti derivati da carne animale, cioè il caglio.
+Vuole perciò sapere se esistono formaggi che sono realizzati con caglio vegetale oppure semplicemente senza caglio.
+
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX dbo: <http://dbpedia.org/ontology/>
-PREFIX dbr: <http://dbpedia.org/resource/>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 ASK
 WHERE {
-   	?cheese a/rdfs:label "Cheese"@en.
+    ?cheese a/rdfs:label "Cheese"@en.
     FILTER NOT EXISTS { ?cheese :isMadeWithRawMaterial/a :AnimalRennet. }
 }
 ```
