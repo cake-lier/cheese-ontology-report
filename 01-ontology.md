@@ -41,9 +41,9 @@ Un formaggio può avere due tipi di invecchiamento: maturazione e stagionatura.
 Per quanto riguarda il processo di stagionatura è prevista la distizione tra formaggi stagionati in cella, in fossa o in grotta; tali ambienti sono rappresentati dal concetto di `Environment` definito dall'ontologia `envo`.
 Infine è stato modellato il meccanismo delle certificazioni associate a formaggi e tipologie di latte impiegato nella relaizzazione del formaggio stesso.
 
-In [figura](#fig:overview) sono rappresentati i concetti appena illustrati e le loro principali relazioni.
+In figura \ref{fig:overview} sono rappresentati i concetti appena illustrati e le loro principali relazioni.
 
-![Panoramica dell'ontologia `cheese-ontology`](images/generic-overview.svg){witdh=100% #fig:overview}
+![Panoramica dell'ontologia `cheese-ontology`\label{fig:overview}](images/generic-overview.svg){witdh=100% #fig:overview}
 
 ```{=latex}
 \begin{table}[H]
@@ -58,7 +58,7 @@ In [figura](#fig:overview) sono rappresentati i concetti appena illustrati e le 
 \end{table}
 ```
 
-In tabella vengono sintetizzate le metriche relative alla `cheese-ontology`.
+In tabella \label{tab:metrics} vengono sintetizzate le metriche relative alla `cheese-ontology`.
 
 ```{=latex}
 \begin{table}[H]
@@ -83,15 +83,15 @@ In tabella vengono sintetizzate le metriche relative alla `cheese-ontology`.
 <!-- Linda -->
 Per rappresentare il concetto di formaggio è stata utilizzata la classe `Cheese` sottoclasse di `Food` ed entrambe fanno parte dell'ontologia `foodon`.
 A sua volta  `Cheese` generalizza le classi
- `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` ed essi possono essere prodotti dal corrisponendente tipo di latte.
+ `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` ed essi possono essere prodotti dal corrispondente tipo di latte.
  Inoltre, sono state individuate le sottoclassi  `StretchedCurdCheese` e  `CreamCheese` per diversificare le tipologie di formaggio.
 E' stata fatta un'ulteriore distinzione tra formaggio fresco e formaggio stagionato, rispettivamente con le classi  `FreshCheese` e  `AgedCheese`.
- Ogni tipologia di formaggio può essere composta da un certo tipo pasta (indentificata in questo caso dalla classe  `CheeseTexture`) e può essere solamente indicata dalle classi: `SoftCheese`  `SemiSoftCheese`  `Cheese`  `MediumHardCheese`  `HardCheese`.
+ Ogni tipologia di formaggio può essere composta da un certo tipo pasta (identificata in questo caso dalla classe  `CheeseTexture`) e può essere solamente indicata dalle classi: `SoftCheese`  `SemiSoftCheese`  `Cheese`  `MediumHardCheese`  `HardCheese`.
  Queste ultime fanno parte di `foodon` eccetto per la classe `MediumHardCheese` che è stata aggiunta nella _cheese ontology_.
  Se un formaggio è indicato come `AgedCheese`, allora ha una certa durata di stagionatura ed è rappresentata dalla classe `Aging` che è a sua volta sottoclasse di `Event`.
 Un'altra sottoclasse di `Event` è `Ripening` e si riferisce alla maturazione del formaggio.
 È possibile specificare la provenienza di un formaggio definendo una `GeographicalFeature` dell'ontologia `geonames`.
-Di seguito vengono riportate le object property relative alla classe `Cheese`.
+Nella tabella \ref{tab:cheese} vengono riportate le object property relative alla classe `Cheese`.
 
 ```{=latex}
 \begin{table}[H]
@@ -105,7 +105,7 @@ Di seguito vengono riportate le object property relative alla classe `Cheese`.
     producedIn & Food & GeographicalFeature & isProductionPlaceOf \\ \hline
  \end{tabularx}
  \caption{\texttt{ObjectProperty} relative al concetto di formaggio.}
- \label{tab:milk}
+ \label{tab:cheese}
 \end{table}
 ```
 
@@ -114,7 +114,9 @@ Inoltre, `hasAging` e `hasRipening`, che fanno in modo che si possano specificar
 Infine, la _object property_ `producedIn` ha come domain `Food` e dunque può essere utilizzata anche dalla classe `hasTexture`, ed è sotto proprietà di `locatedIn` quindi eredita il range `GeographicalFeature`.
 Si può infine notare che ogni _object property_ ha la corrispondente _object property_ inversa.
 
-![Diagramma delle classi che rappresenta la classe `Cheese` e le sue relazioni.](images/cheese.svg){width=100%}
+In figura \ref{fig:cheese} viene riportato il diagramma delle classi riguardante il `Cheese`.
+
+![Diagramma delle classi che rappresenta la classe `Cheese` e le sue relazioni.\label{fig:cheese}](images/cheese.svg){width=100%}
 
 ## Raw Material
 <!-- Linda -->
@@ -125,7 +127,7 @@ Si è scelto inoltre di rappresentare ogni ingrediente come sottoclasse del prop
 La classe `Mold` invece, è stata introdotta come ingrediente per i formaggi cosiddetti "muffettati".
 Si introducono quindi i `Cheese` di tipo `MoldRipenedCheese` che si specializzano in `SoftRipenedCheese`, `SmearRipenedCheese` e `BlueCheese`.
 
-Di seguito vengono riportate le object property relative ai `RawMaterial`.
+In tabella \ref{tab:ingredients} riportate le object property relative ai `RawMaterial`.
 
 ```{=latex}
 \begin{table}[H]
@@ -137,18 +139,20 @@ Di seguito vengono riportate le object property relative ai `RawMaterial`.
     isMadeWithMold & Cheese & Mold & isMoldUsedIn \\ \hline
  \end{tabularx}
  \caption{\texttt{ObjectProperty} relative al concetto di ingrediente.}
- \label{tab:milk}
+ \label{tab:ingredients}
 \end{table}
 ```
 
 La _object property_ `isMadeWithRawMaterial` serve quindi a specificare gli ingredienti di un determinato `Cheese` ed hanno come domain quest'ultimo e come range RawMaterial.
 `isMadeWithMold` invece, è una sottoproprietà di `isMadeWithRawMaterial` ed ha come range Mold.
 
-![Diagramma delle classi che rappresenta la classe `RawMaterial` e le sue relazioni.](images/rawMaterial.svg){width=100%}
+In figura \ref{fig:ingredients} viene mostrato il diagramma delle classi relativo agli ingredienti.
+
+![Diagramma delle classi che rappresenta la classe `RawMaterial` e le sue relazioni.\label{fig:ingredients}](images/rawMaterial.svg){width=100%}
 
 ## Milk
 <!-- Nicolas -->
-Il latte, rappresentato dalla classe `Milk`, rappresenta un concette di primaria importanza all'interno dell'ontologia.
+Il latte, rappresentato dalla classe `Milk`, rappresenta un concetto di primaria importanza all'interno dell'ontologia.
 Il concetto generico di latte è derivato direttamente da `foodon`, vengono poi definite le varie tipologie di latte
 che possono essere impiegate nella produzione di formaggi, in particolare sono state definite le classi `CowMilk`, `SheepMilk`,
 `GoatMilk` e`BuffaloMilk`.
@@ -156,7 +160,7 @@ La classe `MixedMilk` rappresenta un miscuglio di tipologie latti impiegati nell
 trovare tipologie di formaggi derivati dall'unione di più latti.
 
 Oltre a rappresentare le diverse tipologie di latte, sono state catturate anche le possibili caratteristiche che possono essere
-parte di un latte: la classe `RawMilk` indentifica un latte crudo, ovvero un tipo di latte che non ha subito un processo di
+parte di un latte: la classe `RawMilk` identifica un latte crudo, ovvero un tipo di latte che non ha subito un processo di
 pastorizzazione prima di essere impiegato della produzione di formaggio; al contrario troviamo invece la classe `PasteurizedMilk`
 che rappresenta un tipo di latte che ha subito un processo di pastorizzazione prima di essere impiegato della realizzazione del formaggio.
 
@@ -168,9 +172,11 @@ realizzare un formaggio di mucca, o al contrario un formaggio di mucca deve per 
 Quindi per ogni tipo di latte esiste il corrispondente tipo di formaggio.
 
 Ciò che lega un tipo di latte con il relativo tipo di formaggio è la _ObjectProperty_ `isMadeWithMilk`.
-In tabella vengono mostrate le ObjectProperty inerenti al concetto di latte.
+In tabella \ref{tab:milk} vengono mostrate le ObjectProperty inerenti al concetto di latte.
 
-![Diagramma delle classi che rappresenta le relazioni della classe `Milk`.](images/milk.svg){width=100%}
+In figura \ref{fig:milk} viene mostrato il diagramma delle classi relativo al latte.
+
+![Diagramma delle classi che rappresenta le relazioni della classe `Milk`.\label{fig:milk}](images/milk.svg){width=100%}
 
 ```{=latex}
 \begin{table}[H]
@@ -202,7 +208,7 @@ Inoltre, è possibile specificare dove si trova questo ambiente tramite la _obje
 Sono stati individuati tre tipi di ambiente per l'invecchiamento del formaggio e tutti e tre fanno parte dell'ontologia `envo`.
 Essi sono: la grotta `Cave`, la fossa `Pit` e la cella frigorifera `Refrigerator`.
 
-Di seguito vengono riportate le object property relative agli `Environment`.
+In tabella \ref{tab:env} sono riportate le object property relative agli `Environment`.
 
 ```{=latex}
 \begin{table}[H]
@@ -214,14 +220,16 @@ Di seguito vengono riportate le object property relative agli `Environment`.
     hasTakenPlaceIn & Event & GeographicalFeature & isPlaceWhere \\ \hline
  \end{tabularx}
  \caption{\texttt{ObjectProperty} relative al concetto di ambiente.}
- \label{tab:milk}
+ \label{tab:env}
 \end{table}
 ```
 
 In questo caso, la _object property_ `locatedInEnvironment` ha come domain la classe `Event` e come range `Environmet` mentre
-`hasTakenPlaceIn` ha come domain `Event` e range `GeographicalFeature`
+`hasTakenPlaceIn` ha come domain `Event` e range `GeographicalFeature`.
 
-![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.](images/environment.svg){width=100%}
+In figura \ref{fig:env} è riportato il diagramma delle classi relativo agli ambienti.
+
+![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.\label{fig:env}](images/environment.svg){width=100%}
 
 \newpage
 
@@ -237,16 +245,18 @@ Per quanto riguarda invece la stagionatura, il processo ha una durata maggiore d
 
 Questi due caratteristiche sono catturate da due `DataProperty`: `hasAgingDuration` definisce il periodo di stagionatura associato ad un formaggio,
 tale periodo è espresso in mesi; `hasRipeningDuration` esprime il periodo di maturazione di un formaggio espresso in giorni.
-In entrabe le proprietà i due valori sono rappresentati da un intero positivo (`xsd:positiveInteger`).
+In entrambe le proprietà i due valori sono rappresentati da un intero positivo (`xsd:positiveInteger`).
 
-![Diagramma che mostra il concetto di `Event` e le sue relazione con le altre classi.](images/event.svg){width=95%}
+In figura \ref{fig:event} è mostrato il diagramma delle classi che illustra il concetto di evento.
+
+![Diagramma che mostra il concetto di `Event` e le sue relazione con le altre classi.\label{fig:event}](images/event.svg){width=95%}
 
 \newpage
 
 ### Aging
 <!-- Aggiungere tabella con ObjectProperty e Classes -->
 Per quanto riguarda il concetto di stagionatura sono state definite due ObjectProperty: `hasAging` e `isAgingOf`.
-Come è facilmente intuibile l'una è l'inversa dell'altra, per questo motivo ci si limita a edscrivere le proprietà della prima.
+Come è facilmente intuibile l'una è l'inversa dell'altra, per questo motivo ci si limita a descrivere le proprietà della prima.
 
 L'ObjectProperty in questione ha definito come _domain_ la classe `Cheese` e come _range_ la classe `Aging`; ciò sta a significare che
 ove tale predicato sia utilizzato il soggetto sarà un formaggio mentre l'oggetto sarà una stagionatura.
@@ -270,7 +280,7 @@ Osservando il diagramma in figura emergono le seguenti classi: `ProtectedName` o
 una certificazione e infine `ProtectedMilkRawMaterial` che rappresenta un latte certificato utilizzato nella produzione di
 un formaggio con una specifica certificazione.
 
-La distizione tra `ProtectedRicotta` e `ProtectedCheese` deriva dal fatto che la ricotta non è classificata come formaggio, ma allo stesso tempo
+La distinzione tra `ProtectedRicotta` e `ProtectedCheese` deriva dal fatto che la ricotta non è classificata come formaggio, ma allo stesso tempo
 può vedersi riconosciuta una certificazione. Per questo motivo, seppur il concetto espresso sia il medesimo, si è deciso di separare in due classi
 distinte tale classificazione.
 
@@ -283,11 +293,13 @@ Infine è stata definita una restrizione tale per cui la proprietà `hasProtecte
 `ProtectedCheese` ne è una sottoclasse.
 
 Nel contesto delle certificazioni sono state definite due ObjectProperty: `hasProtectedName` e `isProtectedNameOf` dove una è l'inversa dell'altra.
-Per quanto rigurada la prima è stato definito come _domain_ la classe `ProtectedFood` e come _range_ `ProtectedName` ciò significa che ove questo
+Per quanto riguarda la prima è stato definito come _domain_ la classe `ProtectedFood` e come _range_ `ProtectedName` ciò significa che ove questo
 predicato è applicato l'oggetto è considerato come un cibo certificato e l'oggetto è la certificazione stessa.
 
-![Diagramma che mostra l'organinzzazione delle certificazioni all'interno dell'ontologia.](images/certification.svg){width=100%}
+In figura \ref{fig:cert} è mostrata la struttura delle certificazioni.
 
-Sfruttando l'ontologia messa a disposizione dal ministero, si è ricostrutita la gerarchia delle certificazioni presenti in Italia.
+![Diagramma che mostra l'organizzazione delle certificazioni all'interno dell'ontologia.\label{fig:cert}](images/certification.svg){width=100%}
+
+Sfruttando l'ontologia messa a disposizione dal ministero, si è ricostruita la gerarchia delle certificazioni presenti in Italia.
 L'adozione di tale ontologia abilita l'interoperabilità di __cheese ontology__ con eventuali altre ontologie che descrivono e rappresentano altri
 prodotti che possono avere certificazioni sfruttando come ponte l'ontologia del ministero.
