@@ -1,18 +1,18 @@
 # Query SPARQL
 
-Per la realizzazione delle query SPARQL sono stati immaginati scenari reali in cui l'ontologia possa rappresentare un vero e proprio vantaggio
-nel recuperare informazioni utili e pertinenti.
+La realizzazione delle query SPARQL si è basata su scenari d'uso reali in cui l'ontologia ricopre un ruolo fondamentale per l'accesso alla conoscenza e il recupero di informazioni inerenti al dominio in oggetto che siano utili e pertinenti.
+Per questo motivo, ogni _query_ sarà preceduta da una breve descrizione del contesto per cui si è immaginato il suo utilizzo, benché questo non rappresenti in maniera esaustiva tutti gli scenari in qui sia utile l'impiego di quella _query_.
 
 ## Query #1
 
-Lo scenario immaginato in questo caso è un consumatore che è alla ricerca di formaggi che hanno come caratteristica un periodo di
-maturazione del prodotto compreso tra i 5 e i 20 giorni. A tal proposito si è definita la seguente query per soddisfare tale ricerca:
+Un consumatore vuole informarsi su tutti quei formaggi che hanno come caratteristica un periodo di maturazione del prodotto compreso tra i 5 e i 20 giorni.
+Inoltre, il consumatore è interessato a scoprire, per ognuno di quei formaggi, la durata esatta del periodo di maturazione.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label ?duration
+SELECT ?cheese ?label ?duration 
 WHERE {
     ?cheese :hasRipening/:hasRipeningDuration ?duration.
 
@@ -24,18 +24,18 @@ ORDER BY ?label
 
 ## Query #2
 
-Lo scenario immaginato è un consumatore particolarmente attento a identificare formaggi di qualità che possiedono una certificazione,
-in questo caso non è interessato ad una specifica certificazione ma è interessato a trovare tutti i formaggi che ne hanno una. A tal
-proposito si è definita la seguente query:
+Nell'ambito di un corso di formazione di assaggiatori di formaggi, si vuole mostrare quali siano tutti quei formaggi che sono considerati di qualità.
+In particolare, per formaggio di qualità, si intende un formaggio che possiede una certificazione, qualunque essa sia, purché definita tale dall'Unione Europea o dal Ministero delle Politiche Agricole e rilasciata da quest'ultimo.
+L'assaggiatore potrà quindi sapere quali formaggi sono disponibili, assieme alla certificazione che possiedono.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label ?protectedname
+SELECT ?cheese ?label ?protectedname 
 WHERE {
     ?cheese a/rdfs:label "ProtectedCheese"@en.
- 
+
     OPTIONAL { ?cheese :hasProtectedName ?protectedname }
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -44,8 +44,8 @@ ORDER BY ?label
 
 ## Query #3
 
-In questo scenario si è immaginato un consumatore appassionato di formaggi affinati in fossa ed è quindi interessato a trovare tutti
-i formaggi stagionati in quell'ambiente. A tal proposito si è definita la seguente query:
+Un consumatore è particolarmente appassionato del sapore pungente che la fossa dona ai formaggi che vengono affinati in essa.
+Vuole quindi scoprire in quale fossa sono stati affinati i formaggi che appartengono a questa categoria, per comprendere le differenze in termini di gusto che le diverse fosse sono in grado di garantire.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -55,7 +55,7 @@ SELECT ?cheese ?cheeselabel ?pit ?pitlabel
 WHERE {
     ?cheese (:hasRipening|:hasAging)/:locatedInEnvironment ?pit.
     ?pit a/rdfs:label "Pit"@en.
-  
+
     OPTIONAL { ?pit rdfs:label ?pitlabel }
     OPTIONAL { ?cheese rdfs:label ?cheeselabel }
 }
@@ -64,8 +64,9 @@ ORDER BY ?cheeselabel
 
 ## Query #4
 
-In questo scenario si vuole soddisfare un consumatore interessato a tutti i formaggi da latte crudo. A tal proposito è stata formulata
-la seguente query:
+Un consumatore curioso è intenzionato a scoprire se esistono differenze tra i formaggi prodotti da latte crudo rispetto a quelli da latte pastorizzato.
+Per di più, vuole sapere se anche il tipo di latte introduce delle differenze a livello gustativo.
+Con questo obiettivo in mente, interroga il _knowledge graph_ chiedendo quali siano i formaggi prodotti da latte crudo assieme al latte da cui sono stati prodotti.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -84,8 +85,9 @@ ORDER BY ?cheeselabel
 
 ## Query #5
 
-In questo scenario si vuole valorizzare il Sale di Cervia, proponendo tutti i formaggi che sono realizzati con quel tipo di sale.
-A tal proposito è stata definita la seguente query:
+Le "Saline di Cervia" vogliono iniziare una nuova campagna di valorizzazione del loro prodotto.
+A tal proposito, l'associazione pensa che il modo migliore sia farlo promuovendo i formaggi realizzati utilizzando il sale di Cervia.
+Essi decidono perciò di informarsi su tutti quei formaggi per i quali quel sale è stato utilizzato durante la loro produzione.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -102,8 +104,9 @@ ORDER BY ?label
 
 ## Query #6
 
-In questo scenario ci si immagina un consumatore che è interessato a scoprire quali formaggi sono realizzati da latte animale, poiché li reputa di maggiore
-qualità rispetto ad alcuni formaggi realizzati da latte in polvere. La seguente query è stata definita:
+Una fattoria educativa decide di attivare un centro estivo durante il quale si vuole fare un'attività che coinvolga i bambini con lo scopo di insegnare loro alcune caratteristiche dei formaggi.
+In particolar modo, vuole insegnare quali sono i diversi animali che possono produrre latte, il quale viene poi utilizzato nella produzione di formaggi.
+Per questo motivo, il personale della fattoria si documenta su quali tipi di latte sono stati registrati, dividendoli per tipo di animale che li ha prodotti, assieme ai formaggi prodotti da quei tipi di latte.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -112,24 +115,24 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 SELECT ?cheese ?cheeselabel ?milk ?milklabel ?animal
 WHERE {
     ?cheese :isMadeWithMilk ?milk.
-    { 
-     ?milk a/rdfs:label "CowMilk"@en.
-     VALUES ?animal { "Formaggio di mucca" }
+    {
+        ?milk a/rdfs:label "CowMilk"@en.
+        VALUES ?animal { "Formaggio di mucca" }
     }
     UNION
-    { 
-     ?milk a/rdfs:label "SheepMilk"@en.
-     VALUES ?animal { "Formaggio di pecora" }
+    {
+        ?milk a/rdfs:label "SheepMilk"@en.
+        VALUES ?animal { "Formaggio di pecora" }
     }
     UNION
-    { 
-     ?milk a/rdfs:label "GoatMilk"@en.
-     VALUES ?animal { "Formaggio di capra" }
+    {
+        ?milk a/rdfs:label "GoatMilk"@en.
+        VALUES ?animal { "Formaggio di capra" }
     }
     UNION
-    { 
-     ?milk a/rdfs:label "BuffaloMilk"@en.
-     VALUES ?animal { "Formaggio di bufala" }
+    {
+        ?milk a/rdfs:label "BuffaloMilk"@en.
+        VALUES ?animal { "Formaggio di bufala" }
     }
 
     OPTIONAL { ?milk rdfs:label ?milklabel }
@@ -140,16 +143,20 @@ ORDER BY ?cheeselabel
 
 ## Query #7
 
-In questo scenario si volgiono identificare tutti i formaggi molli.
+Un consumatore attento alla propria salute ha notato che da qualche tempo fa fatica a digerire i formaggi che mangia.
+Dopo essersi rivolto al suo nutrizionista, gli è stato consigliato di mangiare solamente formaggi ad alta digeribilità.
+Il nutrizionista ha indicato come tali quei formaggi che sono prodotti o da caglio vegetale o da latte scremato.
+Il consumatore decide perciò di ricercare quali formaggi soddisfino tali proprietà.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label
+SELECT DISTINCT ?cheese ?label
 WHERE {
-   ?cheese a/rdfs:label "CreamCheese"@en.
-   ?cheese a :FreshCheese.
+    { ?cheese :isMadeWithRawMaterial/a :VegetalRennet. }
+    UNION
+    { ?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en. }
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -158,17 +165,32 @@ ORDER BY ?label
 
 ## Query #8
 
-In questo scenario ci si immagina un consumatore con difficoltà ad assimilare prodotti realizzati con latte, quindi è interessato
-a formaggi realizzati con latte parzialmente scremato.
+Un consumatore precedentemente scettico ha scoperto da poco la sua passione per i formaggi erborinati e vuole assaggiarne di nuovi i quali possano essere spalmati oppure affettati.
+Per questo motivo, decide di ricercare tutti i formaggi che sono stati prodotti con l'aiuto di muffe, sia che la muffa si trovi all'interno del formaggio, sia che si trovi sulla crosta, e che possano essere consumati così come piace a lui, distinguendoli tra le diverse categorie.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label
+SELECT ?cheese ?label ?type
 WHERE {
-   ?cheese :isMadeWithRawMaterial/a :VegetalRennet.
-   ?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en.
+    { ?cheese a/rdfs:label "SoftCheese"@en. }
+    UNION
+    { ?cheese a/rdfs:label "SemiSoftCheese"@en. }
+    {
+        ?cheese a/rdfs:label "BlueCheese"@en.
+        VALUES ?type { "Formaggio erborinato" }
+    }
+    UNION
+    {
+        ?cheese a :SmearRipenedCheese
+        VALUES ?type { "Formaggio a crosta lavata" }
+    }
+    UNION
+    {
+        ?cheese a/rdfs:label "SoftRipenedCheese"@en.
+        VALUES ?type { "Formaggio a crosta fiorita" }
+    }
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -177,31 +199,16 @@ ORDER BY ?label
 
 ## Query #9
 
-In questo scenario si è interessati a scoprire tutti i formaggi realizzati a partire da altri formaggi, ovvero che hanno un formaggio come ingrediente.
+Un consumatore molto interessato al processo produttivo dei vari formaggi che conosce vuole sapere se esistono formaggi che vengono prodotti a partire da altri formaggi.
+Per questo motivo, interroga la _knowledge base_ in tal senso.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label ?type
+SELECT DISTINCT ?cheese ?label
 WHERE {
-   { ?cheese a/rdfs:label "SoftCheese"@en. }
-   UNION
-    { ?cheese a/rdfs:label "SemiSoftCheese"@en. }
-    {
-     ?cheese a/rdfs:label "BlueCheese"@en.
-     VALUES ?type { "Formaggio erborinato" }
-   }
-   UNION
-   {
-     ?cheese a :SmearRipenedCheese
-     VALUES ?type { "Formaggio a crosta lavata" }
-   }
-   UNION
-   {
-     ?cheese a/rdfs:label "SoftRipenedCheese"@en.
-     VALUES ?type { "Formaggio a crosta fiorita" }
-   }
+    ?cheese :isMadeWithRawMaterial+/a/rdfs:label "Cheese"@en
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -210,17 +217,123 @@ ORDER BY ?label
 
 ## Query #10
 
-In questo scenario si vogliono identificare tutti i formaggi prodotti da un determinato caseificio, in particolare il caseficio Mambelli.
+Il Comune di Bertinoro ha indetto un evento di promozione del territorio a tema formaggio, in collaborazione con i caseifici locali, in modo tale che questi mettano a disposizione le informazioni sui formaggi che sono prodotti all'interno del Comune.
+Sapendo questo, un partecipante all'evento decide di voler sapere quali sono i formaggi che sono prodotti dal caseificio "Mambelli".
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT DISTINCT ?cheese ?label
+SELECT ?cheese ?label
 WHERE {
-   ?cheese rdfs:label ?label.
-   
-   FILTER(regex(?label, "Mambelli"))
+    ?cheese a/rdfs:label "Cheese"@en.
+  
+    FILTER(REGEX(str(?cheese), "Mambelli"))
+  
+    OPTIONAL {
+        ?cheese rdfs:label ?label.
+
+        FILTER(REGEX(?label, "Mambelli"))
+    }
 }
 ORDER BY ?label
+```
+
+## Query #11
+
+
+
+```sql
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
+
+SELECT ?city ?citylabel ?region (COUNT(?city) AS ?count)
+WHERE {
+    ?cheese :producedIn ?city.
+  
+    SERVICE <https://dbpedia.org/sparql> {
+        ?region dbo:type dbr:Regions_of_Italy.
+        ?city dbo:region ?region.
+    
+        OPTIONAL {
+            ?city rdfs:label ?citylabel.
+      
+            FILTER(LANG(?citylabel) = "it")
+        }
+    }
+}
+GROUP BY ?city ?citylabel ?region
+ORDER BY ?citylabel
+```
+
+## Query #12
+
+```sql
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
+
+SELECT ?region ?cheese ?cheeselabel
+WHERE {
+    ?cheese :producedIn ?city.
+    ?cheese a/rdfs:label "ProtectedCheese"@en.
+  
+    SERVICE <https://dbpedia.org/sparql> {
+        ?region dbo:type dbr:Regions_of_Italy.
+        ?city dbo:region ?region.
+    }
+  
+    OPTIONAL { ?cheese rdfs:label ?cheeselabel. }
+}
+GROUP BY ?cheese ?cheeselabel ?region
+ORDER BY ?regionlabel
+```
+
+## Query #13
+
+```sql
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
+
+SELECT ?cheese ?cheeselabel ?city ?citylabel ?pit ?pitlabel
+WHERE {
+    ?cheese :hasAging ?aging.
+    ?aging :hasTakenPlaceIn ?city.
+    ?aging :locatedInEnvironment ?pit.
+    ?pit a/rdfs:label "Pit"@en.
+  
+    SERVICE <https://dbpedia.org/sparql> {
+        ?city dbo:province dbr:Province_of_Forlì-Cesena.
+    
+        OPTIONAL {
+            ?city rdfs:label ?citylabel.
+        
+            FILTER(LANG(?citylabel) = "it")
+        }
+    }
+  
+    OPTIONAL { ?cheese rdfs:label ?cheeselabel. }
+    OPTIONAL { ?pit rdfs:label ?pitlabel. }
+}
+ORDER BY ?citylabel
+```
+
+## Query #14
+
+```sql
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
+
+ASK
+WHERE {
+   	?cheese a/rdfs:label "Cheese"@en.
+    FILTER NOT EXISTS { ?cheese :isMadeWithRawMaterial/a :AnimalRennet. }
+}
 ```
