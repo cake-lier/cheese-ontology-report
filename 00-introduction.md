@@ -3,7 +3,7 @@
 Il mercato dei formaggi rappresenta uno degli asset economici principali dei paesi europei e non solo;
 negli anni sono state emanate leggi e disciplinari che ne regolano la metodologia di produzione, i materiali usati e i luoghi di produzione.
 
-Ad oggi sono innumerevoli le tipologie di formaggi presenti nel mondo, caratterizzati da ingradienti, processi di lavorazione e consistenza.
+Ad oggi sono innumerevoli le tipologie di formaggi presenti nel mondo, caratterizzati da ingredienti, processi di lavorazione e consistenza.
 A tal proposito la __cheese ontology__ fornisce una classificazione dettagliata di tutte le tipologie e caratteristiche che un qualunque formaggio può avere.
 Fornisce quindi i possibili ingredienti che costituiscono un formaggio, i luoghi in cui può essere affinato o stagionato e infine le possibili certificazioni
 che può avere.
