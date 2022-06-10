@@ -2,10 +2,12 @@
 
 ## Allineamenti con altre ontologie
 
-L'ontologia è stata realizzata partendo da altre ontologie rappresentate in tabella.
-Le più rilevanti sono `geonames` per utilizzare nomi di luoghi geografici; `foodon` e `agrovoc` per quanto riguarda il cibo.
-L'ontologia `envo` è stata utilizzata per gli ambienti in cui sono realizzati i formaggi.
-Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la definizione delle certificazioni.
+L'ontologia è stata realizzata partendo dalle altre ontologie i cui prefissi sono indicati in tabella \ref{tab:prefix}.
+Le più rilevanti sono "foodon" e "agrovoc" per quanto riguarda la modellazione dei concetti inerenti agli alimenti, in particolare al formaggio.
+L'ontologia "envo" è stata utilizzata per gli ambienti in cui sono realizzati i formaggi.
+Le ontologie "foodon" e "envo" sono parte del progetto "OBOFoundry" e sono quindi rappresentate dal prefisso "obo".
+È stata utilizzata l'ontologia realizzata dal _Ministero delle Politiche Agricole Alimentari e Forestali_ per la definizione delle certificazioni e dei formaggi certificati.
+Questa è rappresntata dai prefissi "food-ita", "food-uppper", "food-cheese" e "food-ricotta". Infine è stata utilizzata l'ontologia "DBPedia", identificata dai prefissi "dbo" e "dbr", per modellare i luoghi di produzione, stagionatura e maturazione dei formaggi.
 
 ```{=latex}
 \begin{table}[H]
@@ -14,7 +16,8 @@ Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la
     \hline
     \textbf{Prefisso} & \textbf{Namespace}  \\ \hline
     %
-    geo & \texttt{http://www.geonames.org/ontology\#} \\ \hline
+    dbo & \texttt{http://www.dbpedia.org/ontology/} \\ \hline
+    dbr & \texttt{http://www.dbpedia.org/resource/} \\ \hline
     obo & \texttt{http://purl.obolibrary.org/obo/} \\ \hline
     owl & \texttt{http://www.w3.org/2002/07/owl\#} \\ \hline
     rdf & \texttt{http://www.w3.org/1999/02/22-rdf-syntax-ns\#} \\ \hline
@@ -34,16 +37,27 @@ Infine, è stata utilizzata l'ontologia realizzata dal ministero Italiano per la
 
 ## Panoramica
 
-L'ontologia modella i concetti principali che ruotano attorno al contesto dei formaggi.
-È stato modellato il concetto di formaggio identificato come cibo (definito da `foodon`), facendo distinzione tra i formaggi freschi e stagionati.
-La classe `RawMaterial` esprime il concetto di materia prima come ingrediante per la realizzazione del formaggio.
-Un formaggio può avere due tipi di invecchiamento: maturazione e stagionatura.
-Per quanto riguarda il processo di stagionatura è prevista la distizione tra formaggi stagionati in cella, in fossa o in grotta; tali ambienti sono rappresentati dal concetto di `Environment` definito dall'ontologia `envo`.
-Infine è stato modellato il meccanismo delle certificazioni associate a formaggi e tipologie di latte impiegato nella relaizzazione del formaggio stesso.
+L'ontologia modella i concetti che appartengono al contesto della produzione casearia.
+La radice del modello si trova nella classe `Food` che rappresenta un generico alimento, da cui `Cheese` -- che rappresenta un qualsiasi formaggio -- e `Milk` -- che rappresenta un qualsiasi latte -- discendono.
+
+La classe `RawMaterial` esprime il concetto di materia prima, inteso come ingrediente per la realizzazione di un formaggio.
+Un formaggio può avere due tipi di invecchiamento: maturazione e stagionatura, espressi rispettivamente dalle classi `Ripening` e `Aging`.
+Questi due concetti sono specializzazioni del concetto `Event`, che rappresenta un qualsiasi evento nella realizzazione di un formaggio.
+Un evento può aver luogo in un `Environment` che rappresenta un ambiente in cui un formaggio viene invecchiato.
+Si è distinto tra tre tipologie di ambienti: `Cave`, la grotta, `Pit`, la fossa, e `Refrigerator`, la cella frigorifera.
+
+Si è modellato il luogo in cui un formaggio viene prodotto, ovvero `PopulatedPlace`, che può essere anche luogo in cui un formaggio viene maturato o stagionato.
+
+Infine è stato modellato il meccanismo delle certificazioni associate ai diversi formaggi.
+Un formaggio certificato è quindi un `ProtectedCheese`, specializzazione del concetto `ProtectedFood`, che rappresenta un generico alimento certificato.
 
 In figura \ref{fig:overview} sono rappresentati i concetti appena illustrati e le loro principali relazioni.
 
-![Panoramica dell'ontologia `cheese-ontology`\label{fig:overview}](images/generic-overview.svg){witdh=100% #fig:overview}
+![Panoramica dell'ontologia "Cheese Ontology"\label{fig:overview}](images/generic-overview.svg){witdh=100% #fig:overview}
+
+\newpage
+
+In tabella \ref{tab:definitions} vengono date le definizioni delle classi principali definite nel diagramma di figura \ref{fig:overview}.
 
 ```{=latex}
 \begin{table}[H]
@@ -52,13 +66,35 @@ In figura \ref{fig:overview} sono rappresentati i concetti appena illustrati e l
     \hline
     \textbf{Concetto} & \textbf{Definizione}  \\ \hline
     %
-    Cheese & ...            \\ \hline
-    Food & ...              \\ \hline
+    Food & Per cibo si intende una qualsiasi sostanza consumata per fornire supporto nutrizionale ad un organismo \\ \hline
+    Cheese & Per formaggio si intende un prodotto caseario realizzato in un ampio spettro di sapori, consistenze, e forme attraverso la coagulazione della proteina del latte caseina. \\ \hline
+    Milk & Per latte si intende un cibo liquido ricco di nutrienti prodotto dalle ghiandole mammarie dei mammiferi. \\ \hline
+    Raw Material & Per materia prima si intende un materiale di base che è utilizzato nella produzione di formaggi. \\ \hline
+    Event & Per evento si intende un fenomeno fisico avvenuto nel processo di produzione del formaggio. \\ \hline
+    Aging & Per stagionatura si intende il processo di invecchiamento del formaggio quando la sua durata supera un mese. \\ \hline
+    Ripening & Per maturazione si intende il processo di invecchiamento del formaggio quando la sua durata non supera i 30 giorni. \\ \hline
+    Environment & Per ambiente si intende i dintorni o le condizioni in cui un formaggio stagiona o matura. \\ \hline
+    Cave & Per grotta si intende una grande cavità presente nella roccia di una collina o di una montagna utilizzata per stagionare i formaggi. \\ \hline
+    Pit & Per fossa si intende una scavatura nel terreno, più o meno profonda, praticata per la stagionatura dei formaggi. \\ \hline
+    Refrigerator & Per cella si intende un locale di conservazione del formaggio, ove viene mantenuta una temperatura inferiore a quella ambientale. \\ \hline
  \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Concetto} & \textbf{Definizione}  \\ \hline
+    %
+    Protected Food & Per alimento certificato si intende un qualunque alimento che possiede una certificazione così come definita dal \textit{Ministero delle Politiche Agricole Alimentari e Forestali}.\\ \hline
+    Protected Cheese & Per formaggio certificato si intende qualunque formaggio che possiede una certificazione così come definita dal \textit{Ministero delle Politiche Agricole Alimentari e Forestali}.\\ \hline
+    \end{tabularx}
+    \label{tab:definitions}
+    \caption{Definizioni delle entità principali del modello.}
 \end{table}
 ```
 
-In tabella \label{tab:metrics} vengono sintetizzate le metriche relative alla `cheese-ontology`.
+In tabella \ref{tab:metrics} vengono sintetizzate le metriche relative alla "Cheese Ontology".
 
 ```{=latex}
 \begin{table}[H]
@@ -81,16 +117,12 @@ In tabella \label{tab:metrics} vengono sintetizzate le metriche relative alla `c
 
 ## Cheese
 <!-- Linda -->
-Per rappresentare il concetto di formaggio è stata utilizzata la classe `Cheese` sottoclasse di `Food` ed entrambe fanno parte dell'ontologia `foodon`.
-A sua volta  `Cheese` generalizza le classi
- `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` ed essi possono essere prodotti dal corrispondente tipo di latte.
- Inoltre, sono state individuate le sottoclassi  `StretchedCurdCheese` e  `CreamCheese` per diversificare le tipologie di formaggio.
-E' stata fatta un'ulteriore distinzione tra formaggio fresco e formaggio stagionato, rispettivamente con le classi  `FreshCheese` e  `AgedCheese`.
- Ogni tipologia di formaggio può essere composta da un certo tipo pasta (identificata in questo caso dalla classe  `CheeseTexture`) e può essere solamente indicata dalle classi: `SoftCheese`  `SemiSoftCheese`  `Cheese`  `MediumHardCheese`  `HardCheese`.
- Queste ultime fanno parte di `foodon` eccetto per la classe `MediumHardCheese` che è stata aggiunta nella _cheese ontology_.
- Se un formaggio è indicato come `AgedCheese`, allora ha una certa durata di stagionatura ed è rappresentata dalla classe `Aging` che è a sua volta sottoclasse di `Event`.
-Un'altra sottoclasse di `Event` è `Ripening` e si riferisce alla maturazione del formaggio.
-È possibile specificare la provenienza di un formaggio definendo una `GeographicalFeature` dell'ontologia `geonames`.
+Il concetto di formaggio è rappresentato dalla classe `Cheese`, specializzazione di `Food`, entrambe facenti parte dell'ontologia "foodon".
+Per `Cheese` sono state individuate le sottoclassi `StretchedCurdCheese` e `CreamCheese`, la prima rappresenta un formaggio a pasta filata; il secondo rappresenta un formaggio cremoso o spalmabile.
+Queste due categorie di formaggio non si sovrappongono e non descrivono completamente tutte le tipologie di formaggio esistenti.
+Qualsiasi formaggio è descritto dal proprio tipo di pasta, identificato dalla classe `CheeseTexture`, che può corrispondere solamente ai seguenti valori: `SoftTexture`, `SemiSoftTexture`, `MediumHardTexture`, `SemiHardTexture`, `HardTexture`. A seguito della associazione di un formaggio con uno dei precedenti valori, questo viene classificato con una delle seguenti classi: `SoftCheese`, `SemiSoftCheese`, `MediumHardCheese`, `SemiHardCheese` o `HardCheese`.
+Queste ultime, assieme a `SoftCheese`, fanno parte di "foodon", eccetto la classe `MediumHardCheese`, che non essendo definita è stato necessario aggiungere nella "Cheese Ontology".
+
 Nella tabella \ref{tab:cheese} vengono riportate le object property relative alla classe `Cheese`.
 
 ```{=latex}
@@ -100,19 +132,18 @@ Nella tabella \ref{tab:cheese} vengono riportate le object property relative all
     \hline
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     hasTexture & Cheese & CheeseTexture & isTextureOf \\ \hline
-    hasAging & Cheese & Aging & isAgingOf \\ \hline
-    hasRipening & Cheese & Ripening & isRipeningOf \\ \hline
-    producedIn & Food & GeographicalFeature & isProductionPlaceOf \\ \hline
  \end{tabularx}
  \caption{\texttt{ObjectProperty} relative al concetto di formaggio.}
  \label{tab:cheese}
 \end{table}
 ```
 
-La _object property_ `hasTexture` permette di definire qual è la tipologia di pasta che compone il formaggio e, infatti, ha come range `Cheese` e mentre come domain `CheeseTexture`.
-Inoltre, `hasAging` e `hasRipening`, che fanno in modo che si possano specificare rispettivamente tempo di stagionatura e di maturazione, hanno come domani `Cheese` e come range rispettivamente `Aging` e `Ripening`.
-Infine, la _object property_ `producedIn` ha come domain `Food` e dunque può essere utilizzata anche dalla classe `hasTexture`, ed è sotto proprietà di `locatedIn` quindi eredita il range `GeographicalFeature`.
-Si può infine notare che ogni _object property_ ha la corrispondente _object property_ inversa.
+La _object property_ `hasTexture` permette di definire qual è la tipologia di pasta che compone un formaggio e, infatti, ha come range `Cheese` e come domain `CheeseTexture`.
+Questa proprietà è funzionale, perché un formaggio può avere un solo tipo di pasta, asimmetrica e irriflessiva.
+Si può infine notare che questa _object property_ ha una corrispondente inversa.
+
+Come si vedrà nell seguenti sezioni, `Cheese` generalizza le classi `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` ognuno dei quali rappresenta un formaggio prodotto dal corrispondente tipo di latte.
+È stata fatta un'ulteriore distinzione tra formaggio fresco e formaggio stagionato, rispettivamente grazie alle classi `FreshCheese` e `AgedCheese`.
 
 In figura \ref{fig:cheese} viene riportato il diagramma delle classi riguardante il `Cheese`.
 
