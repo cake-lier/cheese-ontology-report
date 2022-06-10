@@ -121,6 +121,20 @@ Il concetto di formaggio è rappresentato dalla classe `Cheese`, specializzazion
 Per `Cheese` sono state individuate le sottoclassi `StretchedCurdCheese` e `CreamCheese`, la prima rappresenta un formaggio a pasta filata; il secondo rappresenta un formaggio cremoso o spalmabile.
 Queste due categorie di formaggio non si sovrappongono e non descrivono completamente tutte le tipologie di formaggio esistenti.
 Qualsiasi formaggio è descritto dal proprio tipo di pasta, identificato dalla classe `CheeseTexture`, che può corrispondere solamente ai seguenti valori: `SoftTexture`, `SemiSoftTexture`, `MediumHardTexture`, `SemiHardTexture`, `HardTexture`. A seguito della associazione di un formaggio con uno dei precedenti valori, questo viene classificato con una delle seguenti classi: `SoftCheese`, `SemiSoftCheese`, `MediumHardCheese`, `SemiHardCheese` o `HardCheese`.
+Questa associazione è stata resa possibile mediante le restrizioni sulle proprietà di OWL come ad esempio:
+
+```
+obo:FOODON_00002231 owl:equivalentClass [ 
+    owl:intersectionOf ( obo:FOODON_00001013
+                        [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasTexture ;
+                            owl:hasValue :SemiSoftTexture
+                        ]
+                       ) ;
+    rdf:type owl:Class
+] ;
+```
+
 Queste ultime, assieme a `SoftCheese`, fanno parte di "foodon", eccetto la classe `MediumHardCheese`, che non essendo definita è stato necessario aggiungere nella "Cheese Ontology".
 
 Nella tabella \ref{tab:cheese} vengono riportate le object property relative alla classe `Cheese`.
@@ -151,35 +165,43 @@ In figura \ref{fig:cheese} viene riportato il diagramma delle classi riguardante
 
 ## Raw Material
 <!-- Linda -->
-Il concetto di `RawMaterial` è stato introdotto per rappresentare gli ingredienti che compongono un  `Cheese`.
-Nel nostro caso infatti, sono stati individuati alcuni ingredienti fondamentali che provengono dall'ontologia `agrovoc`; Essi sono:  il latte `MilkRawMaterial`, il caglio `RennetRawMaterial`, il siero `Whey`, il sale `SaltRawMaterial`, l'acqua `WaterRawMaterial` e anche `CheeseRawMaterial` in quanto a volte una tipologia di formaggio può essere utilizzata come ingrediente per produrne un altro.
-Un altro ingrediente che non era presente in `agrovoc` è `MilkEnzyme` che abbiamo inserito ad hoc e che estende la classe `FoodManifactureEnzyme` dell'ontologia `foodon`.
-Si è scelto inoltre di rappresentare ogni ingrediente come sottoclasse del proprio `Food` di riferimento utilizzando le classi di `foodon` e `uberon`.
-La classe `Mold` invece, è stata introdotta come ingrediente per i formaggi cosiddetti "muffettati".
-Si introducono quindi i `Cheese` di tipo `MoldRipenedCheese` che si specializzano in `SoftRipenedCheese`, `SmearRipenedCheese` e `BlueCheese`.
+Il concetto di `RawMaterial` è stato introdotto per rappresentare le materie prime che sono gli ingredienti che formano un `Cheese`.
+Nel nostro caso sono stati individuati alcuni ingredienti fondamentali, i quali provengono dall'ontologia "agrovoc".
+Essi sono: il latte, `MilkRawMaterial`, il caglio, `RennetRawMaterial`, il siero, `Whey`, il sale, `SaltRawMaterial`, l'acqua, `WaterRawMaterial` e il formaggio stesso, `CheeseRawMaterial`, in quanto a volte una tipologia di formaggio può essere utilizzata come ingrediente per produrne un altro.
+Un altro ingrediente che è stato individuato, che però non era presente in "agrovoc", è `MilkEnzyme`, ovvero la classe dei fermenti lattici.
+Questo estende la classe `FoodManifactureEnzyme` dell'ontologia "foodon" e quest'ultimo rappresenta un generico enzima utilizzato nella produzione di alimenti.
+Si è scelto inoltre di rappresentare ogni ingrediente come specializzazione del proprio `Food` di riferimento utilizzando le classi messe a disposizione da "foodon" e "uberon".
+La classe `Mold` invece, è stata introdotta come ingrediente per i formaggi che presentano muffe, ovvero quelli di tipo `MoldRipenedCheese`.
+Quest'ultima si specializza nelle classi: `SoftRipenedCheese`, `SmearRipenedCheese` e `BlueCheese`, le quali rappresentano rispettivamente i formaggi a "crosta fiorita", quelli a "crosta lavata" e infine quelli "muffettati".
 
-In tabella \ref{tab:ingredients} riportate le object property relative ai `RawMaterial`.
+È stata considerata la possibilità che siano creati formaggi che appartengono a più di una sottoclasse di `MoldRipenedCheese` oppure a nessuna di esse.
+Per quanto riguarda invece le diverse materie prime e i diversi alimenti, è stato definito che le classi che le rappresentano sono disgiunte tra loro e queste coprono tutte le istanze di `Food`.
+
+In tabella \ref{tab:ingredients} sono riportate le _object property_ relative ai `RawMaterial`.
 
 ```{=latex}
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \begin{tabularx}{\textwidth}{|p{0.27\textwidth}|X|X|p{0.24\textwidth}|}
     \hline
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     isMadeWithRawMaterial & Cheese & RawMaterial & isRawMaterialUsedIn \\ \hline
-    isMadeWithMold & Cheese & Mold & isMoldUsedIn \\ \hline
+    isMadeWithMold & MoldRipened-Cheese & Mold & isMoldUsedIn \\ \hline
+    isMadeWithMilk & Cheese & MilkRawMaterial & isMilkUsedIn \\ \hline
  \end{tabularx}
  \caption{\texttt{ObjectProperty} relative al concetto di ingrediente.}
  \label{tab:ingredients}
 \end{table}
 ```
 
-La _object property_ `isMadeWithRawMaterial` serve quindi a specificare gli ingredienti di un determinato `Cheese` ed hanno come domain quest'ultimo e come range RawMaterial.
-`isMadeWithMold` invece, è una sottoproprietà di `isMadeWithRawMaterial` ed ha come range Mold.
+La _object property_ `isMadeWithRawMaterial` serve a specificare gli ingredienti di un determinato `Cheese` perciò ha come _domain_ quest'ultimo e come _range_ `RawMaterial`. Questa proprietà ha due sottoproprietà: `isMadeWithMilk` e `isMadeWithMold`. Con la prima associamo ad un formaggio il latte con cui è realizzato; con la seconda si specifica il tipo di muffa utilizzata per produrlo. Applicando questa proprietà ad un `Cheese` lo si rende automaticamente un `MoldRipenedCheese` in quanto questa classe è il _domain_ di questa proprietà.
+La proprietà `isMadeWithRawMaterial` ha la caratteristica di essere transitiva poiché un formaggio può essere realizzato a partire da un altro, in tal caso le materie prime che sono state utilizzate per produrre quest'ultimo sono materie prime anche del primo formaggio.
 
 In figura \ref{fig:ingredients} viene mostrato il diagramma delle classi relativo agli ingredienti.
 
 ![Diagramma delle classi che rappresenta la classe `RawMaterial` e le sue relazioni.\label{fig:ingredients}](images/rawMaterial.svg){width=100%}
+
+\newpage
 
 ## Milk
 <!-- Nicolas -->
