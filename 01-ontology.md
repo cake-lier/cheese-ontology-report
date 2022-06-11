@@ -205,27 +205,59 @@ In figura \ref{fig:ingredients} viene mostrato il diagramma delle classi relativ
 
 ## Milk
 <!-- Nicolas -->
-Il latte, rappresentato dalla classe `Milk`, rappresenta un concetto di primaria importanza all'interno dell'ontologia.
-Il concetto generico di latte è derivato direttamente da `foodon`, vengono poi definite le varie tipologie di latte
-che possono essere impiegate nella produzione di formaggi, in particolare sono state definite le classi `CowMilk`, `SheepMilk`,
-`GoatMilk` e`BuffaloMilk`.
-La classe `MixedMilk` rappresenta un miscuglio di tipologie latti impiegati nella realizzazione dei formaggi; infatti è tipico
-trovare tipologie di formaggi derivati dall'unione di più latti.
+La classe `Milk` modella il concetto generico di latte che può essere impiegato nella produzione di formaggi, il quale è derivato direttamente da "uberon".
+A partire da questo vengono poi definite le sue specializzazioni `CowMilk`, `SheepMilk`, `GoatMilk` e `BuffaloMilk`.
+Ognuna di queste rappresenta un latte prodotto da una tipologia di animale, rispettivamente da mucche, da pecore, da capre e da bufale.
+La classe `MixedMilk` rappresenta invece un latte nato da un miscuglio di tipologie di latti prodotti da animali differenti; è possibile infatti trovare tipologie di formaggi derivati dall'unione di più latti diversi.
 
-Oltre a rappresentare le diverse tipologie di latte, sono state catturate anche le possibili caratteristiche che possono essere
-parte di un latte: la classe `RawMilk` identifica un latte crudo, ovvero un tipo di latte che non ha subito un processo di
-pastorizzazione prima di essere impiegato della produzione di formaggio; al contrario troviamo invece la classe `PasteurizedMilk`
-che rappresenta un tipo di latte che ha subito un processo di pastorizzazione prima di essere impiegato della realizzazione del formaggio.
+A ciascuno dei tipi di latte indicati in precedenza, corrisponde un tipo di formaggio: un formaggio fatto da `CowMilk` è definito `CowCheese`, uno fatto da `SheepMilk` è definito `SheepCheese`, uno fatto da `GoatMilk` è un `GoatCheese` e un formaggio fatto da `BuffaloMilk` è un `BuffaloCheese`.
+Per ragioni di completezza è stato definito anche che un formaggio fatto da `MixedMilk` è un `MixedMilkCheese`.
+Dato che è logico che un latte non possa essere stato prodotto da più animali contemporaneamente, in quanto questo caso è esplicitamente catturato dalla classe `MixedMilk`, le classi `CowMilk`, `SheepMilk`, `GoatMilk`, `BuffaloMilk` e `MixedMIlk` sono disgiunte tra loro e coprono tutte le istanze di `Milk`. Analogamente, le classi `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` sono disgiunte tra loro e coprono tutte le istanze di `Cheese`.
+Per fare in modo che il reasoner potesse assegnare queste tipologie ad un formaggio sono state definite delle restrizioni in OWL, come ad esempio:
 
-Sono state definite delle specializzazioni della classe `PasteurizedMilk` che rappresentano i concetti di latte scremato, latte parzialmente scremato
-e latte interno. Tali concetti sono rappresentati rispettivamente dalle classi `SkimmedMilk`, `SemiSkimmedMilk` e `WholeMilk`.
+```
+obo:FOODON_00001126 owl:equivalentClass 
+        [ owl:intersectionOf ( obo:FOODON_00001013
+                        [ rdf:type owl:Restriction ;
+                            owl:onProperty :isMadeWithMilk ;
+                            owl:allValuesFrom obo:FOODON_00001771
+                        ]
+                        ) ;
+          rdf:type owl:Class
+        ] ;
+```
 
-Per ogni tipologia di latte esiste una relazione che lo lega con una tipologia di formaggio; ad esempio un latte di mucca è impiegato per
-realizzare un formaggio di mucca, o al contrario un formaggio di mucca deve per forza essere realizzato con latte di mucca.
-Quindi per ogni tipo di latte esiste il corrispondente tipo di formaggio.
+Oltre a rappresentare le diverse tipologie di latte, sono state modellate anche le possibili caratteristiche che un latte può avere.
+Un latte può essere crudo o pastorizzato e può avere subito un processo di scrematura o meno prima di essere impiegato nel processo di produzione del formaggio.
+La classe `RawMilk` identifica un latte crudo, mentre invece la classe `PasteurizedMilk` rappresenta un tipo di latte che ha subito un processo di pastorizzazione.
+Siccome queste due proprietà sono mutualmente esclusive, queste due classi sono disgiunte tra loro e coprono tutte le istanze di `Milk`.
+Per i concetti di latte scremato, latte parzialmente scremato e latte intero, sono state definite rispettivamente dalle classi: `SkimmedMilk`, `SemiSkimmedMilk` e `WholeMilk`.
+Per poter associare a un latte la sua scrematura, è stata definita la classe `MilkSkimming` che può assumere solamente i valori `TotalSkimming`, `PartialSkimming` e `NoSkimming`, che corrispondono alle classi così come sono state elencate in precedenza. Per fare in modo che il reasoner deduca automaticamente il tipo di latte a partire dal processo di scrematura che ha subito, sono state definite delle restrizioni in OWL del tipo:
 
-Ciò che lega un tipo di latte con il relativo tipo di formaggio è la _ObjectProperty_ `isMadeWithMilk`.
-In tabella \ref{tab:milk} vengono mostrate le ObjectProperty inerenti al concetto di latte.
+```
+obo:FOODON_03301484 rdfs:subClassOf obo:UBERON_0001913 ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasSkimming ;
+                                      owl:hasValue :TotalSkimming
+                                    ] ;
+```
+
+A seguire, per poter classificare un formaggio sulla base del tipo di latte che è stato impiegato per realizzarlo, sono state definite delle restrizioni in OWL del tipo:
+
+```
+:SkimmedMilkCheese owl:equivalentClass
+        [ owl:intersectionOf ( obo:FOODON_00001013
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :isMadeWithMilk ;
+                                  owl:allValuesFrom obo:FOODON_03301484
+                                ]
+                             ) ;
+          rdf:type owl:Class
+        ] .
+```
+
+Ciò che lega un tipo di latte con il relativo tipo di formaggio è la _object property_ `isMadeWithMilk`. Mentre invece, ciò che lega un latte con la scrematura che ha subito, è la _object property_ `hasSkimming`. La proprietà `isMadeWithMilk`
+In tabella \ref{tab:milk} vengono mostrate queste proprietà e le loro caratteristiche.
 
 In figura \ref{fig:milk} viene mostrato il diagramma delle classi relativo al latte.
 
@@ -234,34 +266,57 @@ In figura \ref{fig:milk} viene mostrato il diagramma delle classi relativo al la
 ```{=latex}
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \begin{tabularx}{\textwidth}{|X|X|X|X|}
     \hline
-    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range}  \\ \hline
-    isMadeWithRawMaterial & Cheese & RawMaterial \\ \hline
-    isMadeWithMilk & & MilkRawMaterial \\ \hline
+    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} & \textbf{Inverse of}  \\ \hline
+    isMadeWithRawMaterial & Cheese & RawMaterial & isRawMaterialUsedIn \\ \hline 
+    isMadeWithMilk &  & MilkRawMaterial & isMilkUsedIn \\ \hline
+    hasSkimming & Milk & MilkSkimming & isSkimmingOf \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di latte.}
+ \caption{\textit{object property} relative al concetto di latte.}
  \label{tab:milk}
 \end{table}
 ```
 
-Come si può osservare dalla tabella la ObjectProperty `isMadeWithRawMaterial` identifica il concetto di "formaggio realizzato con una materia prima" e
-quindi la ObjectProperty `isMadeWithMilk` non è altro che una specializzazione della precedente che rappresenta il concetto di
-"formaggio realizzato con un latte". Il _domain_ è la classe `Cheese` ciò significa che ovunque questo predicato è applicato il soggetto è un formaggio,
-mentre l'oggetto è un `MilkRawMaterial` dovuto al _range._
-Nel _range_ della ObjectProperty è specificata la classe `MilkRawMaterial` e non semplicemente `Milk` poiché si vuole catturare il concetto di
-"latte utilizzato per la realizzazione di un formaggio" e non solo latte come concetto di cibo generico.
-La ObjectProperty `isMadeWithMilk` è l'inversa di `isMilkUsedIn`, in questo modo aiutiamo in reasoner nel generare inferenze indirette.
+Visto che la _object property_ `isMadeWithRawMaterial` associa un formaggio ad una materia prima utilizzata nella sua produzione, la _object property_ `isMadeWithMilk` non è altro che una specializzazione della precedente dove la materia prima è in questo caso un `Milk`.
+Il _domain_ di quest'ultima proprietà è perciò la classe `Cheese`, ereditata dalla proprietà genitore, mentre il _range_ è la classe `MilkRawMaterial`, e non semplicemente `Milk`, poiché si vuole catturare l'idea per la quale quello associato dalla proprietà è un latte usato come materia prima e non solo un generico latte.
+Invece per la proprietà `hasSkimming` il _domain_ è `Milk` mentre il _range_ è `MilkSkimming`. Questa proprietà è funzionale perché un latte può subire un solo processo di scrematura, ma anche irriflessiva e asimmetrica.
 
-## Environment
-<!-- Linda -->
-La classe `Environment` rapprensenta l'ambiente in cui i formaggi possono maturare o stagionare.
-Infatti, sono stati identificati gli eventi `Aging` e `Ripening` collegati ad `Environment` tramite la _object property_ `locatedInEnvironment`.
-Inoltre, è possibile specificare dove si trova questo ambiente tramite la _object property_ `hasTakenPlaceIn` specificando la `GeographicalFeature`.
-Sono stati individuati tre tipi di ambiente per l'invecchiamento del formaggio e tutti e tre fanno parte dell'ontologia `envo`.
-Essi sono: la grotta `Cave`, la fossa `Pit` e la cella frigorifera `Refrigerator`.
+## Environment e Event
 
-In tabella \ref{tab:env} sono riportate le object property relative agli `Environment`.
+Il concetto di evento, definito dalla classe `Event`, nasce dall'esigenza di modellare il processo di "invecchiamento" del formaggio, che può essere distinto in maturazione e stagionatura.
+Questi due concetti sono modellati rispettivamente dalle classi `Aging` e `Ripening` ed entrambe sono infatti specializzazioni della classe `Event`.
+Quando si parla di maturazione si intende un processo di invecchiamento del formaggio che va da uno a trenta giorni, mentre invece la stagionatura ha una durata maggiore di trenta giorni.
+Per rappresentare il vincolo sulla durata della maturazione, è stato definito il seguente vincono in OWL:
+
+```
+:Ripening rdfs:subClassOf 
+          [ rdf:type owl:Restriction ;
+          owl:onProperty :hasRipeningDuration ;
+          owl:allValuesFrom 
+              [ rdf:type rdfs:Datatype ;
+              owl:onDatatype xsd:positiveInteger ;
+              owl:withRestrictions (
+                 [ xsd:maxInclusive "30"^^xsd:positiveInteger ]
+                                   )
+              ]
+          ] ;
+```
+
+Sulla classe `Aging` non è stato necessario introdurre alcun vincolo di durata poiché il valore che la esprime è inteso in mesi.
+
+Un formaggio che ha subito il processo di stagionatura è definito stagionato ed è rappresentato dalla classe `AgedCheese`.
+Un formaggio che non ha subito stagionatura, invece, è definito formaggio fresco ed è rappresentato dalla classe `FreshCheese`.
+Questa condizione è però necessaria ma non sufficiente poiché per essere definito tale deve essere anche vero che non ha subito un processo di maturazione.
+
+La classe `Environment` rappresenta l' ambiente in cui i formaggi maturano o stagionano.
+Sono stati individuati tre tipi di ambiente per l'invecchiamento del formaggio ognuno dei quali è tratto dall'ontologia "envo".
+Questi ambienti sono: la grotta, `Cave`, la fossa, `Pit`, e la cella frigorifera, `Refrigerator`.
+
+La produzione di formaggio avviene presso un luogo, inteso come area geografica, così come accade per la maturazione e la stagionatura.
+Per questo motivo abbiamo introdotto il concetto di `PopulatedPlace` così come definito dall'ontologia "DBPedia".
+
+In tabella \ref{tab:env} sono riportate le _object property_ relative agli `Environment` e agli `Event`.
 
 ```{=latex}
 \begin{table}[H]
@@ -269,61 +324,43 @@ In tabella \ref{tab:env} sono riportate le object property relative agli `Enviro
     \begin{tabularx}{\textwidth}{|X|X|X|X|}
     \hline
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
-    locatedInEnvironment & Event & Environment & isEnvironmentLocationOf \\ \hline
-    hasTakenPlaceIn & Event & GeographicalFeature & isPlaceWhere \\ \hline
+    isLocatedInEnvironment & Event & Environment & isEnvironmentLocationOf \\ \hline
+    isLocatedIn & & PopulatedPlace & isLocationOf \\ \hline
+    hasTakenPlaceIn & Event &  & isPlaceWhere \\ \hline
+    isProducedIn & Food & & isProductionPlaceOf \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di ambiente.}
+ \caption{\textit{ObjectProperty} relative al concetto di ambiente.}
  \label{tab:env}
 \end{table}
 ```
 
-In questo caso, la _object property_ `locatedInEnvironment` ha come domain la classe `Event` e come range `Environmet` mentre
-`hasTakenPlaceIn` ha come domain `Event` e range `GeographicalFeature`.
+È stata definita la proprietà `isLocatedIn` che associa una `owl:Thing` al `PopulatedPlace` a cui è associata, da questa sono state poi definite due sottoproprietà: `hasTakenPlaceIn` e `producedIn`.
+La prima ha come _domain_ `Event` ed eredita come _range_ `PopulatedPlace` e ha come compito quello di legare un `Event` a luogo in cui si è svolto.
+La seconda ha come _domain_ `Food` ed eredita come _range_ `PopulatedPlace` e ha invece come scopo quello di associare un `Food` al luogo in cui è stato prodotto.
+Per associare un `Event` all'`Environment` in cui ha avuto luogo, è stata definita la proprietà `isLocatedInEnvironment` che ha rispettivamente le due classi indicate come _domain_ e _range._
+Sia `isLocatedIn` che `isLocatedInEnvironment` sono proprietà funzionali perché non è possibile associare più `PopulatedPlace` o `Environment` allo stesso soggetto e sono anche entrambe asimmetriche e irriflessive.
 
-In figura \ref{fig:env} è riportato il diagramma delle classi relativo agli ambienti.
+In tabella \ref{tab:evdp} sono riportate le _data property_ relative agli `Event`.
 
-![Diagramma delle classi che rappresenta la classe `Environment` e le sue relazioni.\label{fig:env}](images/environment.svg){width=100%}
+```{=latex}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{DataProperty} & \textbf{Domain} & \textbf{Range} \\ \hline
+    hasAgingDuration & Aging & xsd:positiveInteger \\ \hline
+    hasRipeningDuration & Ripening & xsd:positiveInteger \\ \hline
+ \end{tabularx}
+ \caption{\textit{ObjectProperty} relative al concetto di ambiente.}
+ \label{tab:evdp}
+\end{table}
+```
 
-\newpage
+Per rappresentare la durata degli eventi di `Aging` e `Ripening`, sono state definite rispettivamente le _data property_ `hasAgingDuration` e `hasRipeningDuration` che rispettivamente hanno le classi `Aging` e `Ripening` come _domain_.
+La proprietà `hasAgingDuration` esprime una durata in mesi e dal momento che non ha senso esprimere mesi con numeri non positivi, è stato utilizzato come _range_ il _data type_ `xsd:positiveInteger`.  
+La proprietà `hasRipeningDuration` esprime una durata in giorni e dal momento che non ha senso esprimere giorni con numeri non positivi, è stato utilizzato come _range_ il _data type_ `xsd:positiveInteger`.
 
-## Event
-<!-- Nicolas -->
-<!-- Aggiungere tabella con ObjectProperty e Classes -->
-Il concetto di evento, definito dalla classe `Event`, nasce dall'esigenza di modellare il processo di "invecchiamento" del formaggio,
-tipicamente rappresentato dal processo di maturazione o di stagionatura.
-
-Infatti, stagionatura e maturazione sono due specializzazioni della classe `Event`, identificate rispettivamente dalle classi `Aging` e `Ripeness`.
-Quando si parla di maturazione (ripeness) si intende un processo di invecchiamento del formaggio che va dai 0 ai 30 giorni.
-Per quanto riguarda invece la stagionatura, il processo ha una durata maggiore di 30 giorni.
-
-Questi due caratteristiche sono catturate da due `DataProperty`: `hasAgingDuration` definisce il periodo di stagionatura associato ad un formaggio,
-tale periodo è espresso in mesi; `hasRipeningDuration` esprime il periodo di maturazione di un formaggio espresso in giorni.
-In entrambe le proprietà i due valori sono rappresentati da un intero positivo (`xsd:positiveInteger`).
-
-In figura \ref{fig:event} è mostrato il diagramma delle classi che illustra il concetto di evento.
-
-![Diagramma che mostra il concetto di `Event` e le sue relazione con le altre classi.\label{fig:event}](images/event.svg){width=95%}
-
-\newpage
-
-### Aging
-<!-- Aggiungere tabella con ObjectProperty e Classes -->
-Per quanto riguarda il concetto di stagionatura sono state definite due ObjectProperty: `hasAging` e `isAgingOf`.
-Come è facilmente intuibile l'una è l'inversa dell'altra, per questo motivo ci si limita a descrivere le proprietà della prima.
-
-L'ObjectProperty in questione ha definito come _domain_ la classe `Cheese` e come _range_ la classe `Aging`; ciò sta a significare che
-ove tale predicato sia utilizzato il soggetto sarà un formaggio mentre l'oggetto sarà una stagionatura.
-Sono quindi state definite altre caratteristiche a questa ObjectProperty, in particolare è stato indicato che è _irriflessiva_, ovvero
-che non può essere messa in relazione con sè stessa. È _asimmetrica_ e _funzionale_, quindi ove applicata questa proprietà può avere uno solo valore e
-questo risulta particolarmente utile a indicare che un formaggio non può avere più periodi di stagionatura.
-
-### Ripening
-<!-- Aggiungere tabella con ObjectProperty e Classes -->
-In modo del tutto simile alla stagionatura, la maturazione definisce due ObjectProperty: `hasRipening` e `isRipeneningOf`.
-Anche in questo caso una è l'inversa dell'altra.
-
-L'ObjectProperty `hasRipening` ha anch'essa come _domain_ la classe `Cheese` e come _range_ la classe `Ripening`.
-Anche in questo caso, come per la stagionatura, è stato indicato che questa proprietà è _funzionale_, _asimmetrica_ e _irriflessiva_.
+![Diagramma delle classi che rappresenta le classi `Environment` e `Event` e le loro relazioni.\label{fig:env}](images/EventEnvironment.svg){width=100%}
 
 ## Certification
 <!-- Nicolas -->
