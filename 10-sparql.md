@@ -115,22 +115,22 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 SELECT ?cheese ?cheeselabel ?milk ?milklabel ?animal
 WHERE {
     ?cheese :isMadeWithMilk ?milk.
-    {
+    { 
         ?milk a/rdfs:label "CowMilk"@en.
         VALUES ?animal { "Formaggio di mucca" }
     }
     UNION
-    {
+    { 
         ?milk a/rdfs:label "SheepMilk"@en.
         VALUES ?animal { "Formaggio di pecora" }
     }
     UNION
-    {
+    { 
         ?milk a/rdfs:label "GoatMilk"@en.
         VALUES ?animal { "Formaggio di capra" }
     }
     UNION
-    {
+    { 
         ?milk a/rdfs:label "BuffaloMilk"@en.
         VALUES ?animal { "Formaggio di bufala" }
     }
@@ -138,7 +138,7 @@ WHERE {
     OPTIONAL { ?milk rdfs:label ?milklabel }
     OPTIONAL { ?cheese rdfs:label ?cheeselabel }
 }
-ORDER BY ?cheeselabel
+ORDER BY ?animal
 ```
 
 ## Query 7
@@ -251,23 +251,17 @@ PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dbr: <http://dbpedia.org/resource/>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?city ?citylabel ?region (COUNT(?city) AS ?count)
+SELECT DISTINCT ?city ?region (COUNT(?city) AS ?count)
 WHERE {
     ?cheese :producedIn ?city.
   
     SERVICE <https://dbpedia.org/sparql> {
         ?region dbo:type dbr:Regions_of_Italy.
         ?city dbo:region ?region.
-    
-        OPTIONAL {
-            ?city rdfs:label ?citylabel.
-      
-            FILTER(LANG(?citylabel) = "it")
-        }
     }
 }
-GROUP BY ?city ?citylabel ?region
-ORDER BY ?citylabel
+GROUP BY ?city ?region
+ORDER BY DESC(COUNT(?city))
 ```
 
 ## Query 12
