@@ -308,6 +308,7 @@ Sulla classe `Aging` non è stato necessario introdurre alcun vincolo di durata 
 Un formaggio che ha subito il processo di stagionatura è definito stagionato ed è rappresentato dalla classe `AgedCheese`.
 Un formaggio che non ha subito stagionatura, invece, è definito formaggio fresco ed è rappresentato dalla classe `FreshCheese`.
 Questa condizione è però necessaria ma non sufficiente poiché per essere definito tale deve essere anche vero che non ha subito un processo di maturazione.
+Queste due classi sono perciò disgiunte ma non riescono a coprire tutte le istanze di `Cheese`.
 
 La classe `Environment` rappresenta l' ambiente in cui i formaggi maturano o stagionano.
 Sono stati individuati tre tipi di ambiente per l'invecchiamento del formaggio ognuno dei quali è tratto dall'ontologia "envo".
@@ -321,7 +322,7 @@ In tabella \ref{tab:env} sono riportate le _object property_ relative agli `Envi
 ```{=latex}
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \begin{tabularx}{\textwidth}{|X|p{0.15\textwidth}|p{0.17\textwidth}|X|}
     \hline
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     isLocatedInEnvironment & Event & Environment & isEnvironmentLocationOf \\ \hline
@@ -361,6 +362,8 @@ La proprietà `hasAgingDuration` esprime una durata in mesi e dal momento che no
 La proprietà `hasRipeningDuration` esprime una durata in giorni e dal momento che non ha senso esprimere giorni con numeri non positivi, è stato utilizzato come _range_ il _data type_ `xsd:positiveInteger`.
 
 ![Diagramma delle classi che rappresenta le classi `Environment` e `Event` e le loro relazioni.\label{fig:env}](images/EventEnvironment.svg){width=100%}
+
+\newpage
 
 ## Certification
 <!-- Nicolas -->
