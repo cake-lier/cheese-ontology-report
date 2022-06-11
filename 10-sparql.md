@@ -273,11 +273,13 @@ Deve perciò raccogliere le informazioni in merito ai formaggi certificati che v
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX food-upper: <http://w3id.org/food/ontology/disciplinare-upper/>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?region ?cheese ?cheeselabel
+SELECT ?region ?cheese ?cheeselabel ?name ?namelabel
 WHERE {
     ?cheese :producedIn ?city.
+    ?cheese food-upper:haDenominazione ?name.
     ?cheese a/rdfs:label "ProtectedCheese"@en.
   
     SERVICE <https://dbpedia.org/sparql> {
@@ -286,9 +288,9 @@ WHERE {
     }
   
     OPTIONAL { ?cheese rdfs:label ?cheeselabel. }
+    OPTIONAL { ?name rdfs:label ?namelabel }
 }
-GROUP BY ?cheese ?cheeselabel ?region
-ORDER BY ?regionlabel
+ORDER BY ?cheeselabel
 ```
 
 ## Query 13
