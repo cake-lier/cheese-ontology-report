@@ -22,6 +22,8 @@ WHERE {
 ORDER BY ?label
 ```
 
+\newpage
+
 ## Query 2
 
 Nell'ambito di un corso di formazione di assaggiatori di formaggi, si vuole mostrare quali siano tutti quei formaggi che sono considerati di qualità.
@@ -102,6 +104,8 @@ WHERE {
 ORDER BY ?label
 ```
 
+\newpage
+
 ## Query 6
 
 Una fattoria educativa decide di attivare un centro estivo durante il quale si vuole fare un'attività che coinvolga i bambini con lo scopo di insegnare loro alcune caratteristiche dei formaggi.
@@ -163,6 +167,8 @@ WHERE {
 ORDER BY ?label
 ```
 
+\newpage
+
 ## Query 8
 
 Un consumatore precedentemente scettico ha scoperto da poco la sua passione per i formaggi erborinati e vuole assaggiarne di nuovi i quali possano essere spalmati oppure affettati.
@@ -196,6 +202,8 @@ WHERE {
 }
 ORDER BY ?label
 ```
+
+\newpage
 
 ## Query 9
 
@@ -264,6 +272,8 @@ GROUP BY ?city ?region
 ORDER BY DESC(COUNT(?city))
 ```
 
+\newpage
+
 ## Query 12
 
 "Slow Food" è interessata a creare la nuova mappa dei formaggi certificati italiani, per promuovere la conoscenza sulle eccellenze italiane.
@@ -292,6 +302,8 @@ WHERE {
 }
 ORDER BY ?cheeselabel
 ```
+
+\newpage
 
 ## Query 13
 
@@ -326,6 +338,8 @@ WHERE {
 }
 ORDER BY ?citylabel
 ```
+
+\newpage
 
 ## Query 14
 

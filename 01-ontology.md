@@ -62,7 +62,7 @@ In tabella \ref{tab:definitions} vengono date le definizioni delle classi princi
 ```{=latex}
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
+    \begin{tabularx}{\textwidth}{|p{0.25\textwidth}|X|}
     \hline
     \textbf{Concetto} & \textbf{Definizione}  \\ \hline
     %
@@ -77,20 +77,11 @@ In tabella \ref{tab:definitions} vengono date le definizioni delle classi princi
     Cave & Per grotta si intende una grande cavità presente nella roccia di una collina o di una montagna utilizzata per stagionare i formaggi. \\ \hline
     Pit & Per fossa si intende una scavatura nel terreno, più o meno profonda, praticata per la stagionatura dei formaggi. \\ \hline
     Refrigerator & Per cella si intende un locale di conservazione del formaggio, ove viene mantenuta una temperatura inferiore a quella ambientale. \\ \hline
- \end{tabularx}
-\end{table}
-
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Concetto} & \textbf{Definizione}  \\ \hline
-    %
     Protected Food & Per alimento certificato si intende un qualunque alimento che possiede una certificazione così come definita dal \textit{Ministero delle Politiche Agricole Alimentari e Forestali}.\\ \hline
     Protected Cheese & Per formaggio certificato si intende qualunque formaggio che possiede una certificazione così come definita dal \textit{Ministero delle Politiche Agricole Alimentari e Forestali}.\\ \hline
-    \end{tabularx}
-    \label{tab:definitions}
-    \caption{Definizioni delle entità principali del modello.}
+ \end{tabularx}
+\label{tab:definitions}
+\caption{Definizioni delle entità principali del modello.}
 \end{table}
 ```
 
@@ -217,6 +208,8 @@ Per ragioni di completezza è stato definito anche che un formaggio fatto da `Mi
 Dato che è logico che un latte non possa essere stato prodotto da più animali contemporaneamente, in quanto questo caso è esplicitamente catturato dalla classe `MixedMilk`, le classi `CowMilk`, `SheepMilk`, `GoatMilk`, `BuffaloMilk` e `MixedMIlk` sono disgiunte tra loro e coprono tutte le istanze di `Milk`. Analogamente, le classi `CowCheese`, `SheepCheese`, `GoatCheese`, `BuffaloCheese` e `MixedMilkCheese` sono disgiunte tra loro e coprono tutte le istanze di `Cheese`.
 Per fare in modo che il reasoner potesse assegnare queste tipologie ad un formaggio sono state definite delle restrizioni in OWL, come ad esempio:
 
+\newpage
+
 ```
 obo:FOODON_00001126 owl:equivalentClass 
         [ owl:intersectionOf ( obo:FOODON_00001013
@@ -332,7 +325,7 @@ In tabella \ref{tab:env} sono riportate le _object property_ relative agli `Envi
     hasTakenPlaceIn & Event &  & isPlaceWhere \\ \hline
     isProducedIn & Food & & isProductionPlaceOf \\ \hline
  \end{tabularx}
- \caption{\textit{ObjectProperty} relative al concetto di ambiente.}
+ \caption{\textit{object property} relative al concetto di ambiente.}
  \label{tab:env}
 \end{table}
 ```
@@ -354,7 +347,7 @@ In tabella \ref{tab:evdp} sono riportate le _data property_ relative agli `Event
     hasAgingDuration & Aging & xsd:positiveInteger \\ \hline
     hasRipeningDuration & Ripening & xsd:positiveInteger \\ \hline
  \end{tabularx}
- \caption{\textit{ObjectProperty} relative al concetto di ambiente.}
+ \caption{\textit{object property} relative al concetto di ambiente.}
  \label{tab:evdp}
 \end{table}
 ```
@@ -393,7 +386,7 @@ In tabella \ref{tab:cert} sono riportate le _data property_ relative a `Protecte
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     hasProtectedName & ProtectedFood & ProtectedName & isProtectedNameOf \\ \hline
  \end{tabularx}
- \caption{\textit{ObjectProperty} relative al concetto di certificazione.}
+ \caption{\textit{object property} relative al concetto di certificazione.}
  \label{tab:cert}
 \end{table}
 ```

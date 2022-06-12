@@ -28,6 +28,8 @@ swrlb:greaterThanOrEqual(?d, 1) ^
 swrlb:lessThanOrEqual(?d, 30)
 ```
 
+\newpage
+
 ## Regola 2
 
 Questa regola vincola il fatto che il processo di stagionatura di un formaggio è un numero intero positivo espresso in mesi.
@@ -76,4 +78,3 @@ food-upper:haDenominazione(?c, ?n) ^
 food-ricotta:DenominazioneRicotta(?n) 
 -> food-ricotta:Ricotta(?c)
 ```
-
