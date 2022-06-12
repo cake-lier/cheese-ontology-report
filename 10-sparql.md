@@ -37,8 +37,8 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label ?protectedname ?namelabel
 WHERE {
-    ?cheese a/rdfs:label "ProtectedCheese"@en.
-    ?cheese food-upper:haDenominazione ?protectedname
+    ?cheese a/rdfs:label "ProtectedCheese"@en;
+            food-upper:haDenominazione ?protectedname.
 
     OPTIONAL { ?cheese rdfs:label ?label }
     OPTIONAL { ?protectedname rdfs:label ?namelabel }
@@ -78,8 +78,8 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?cheeselabel ?milk ?milklabel
 WHERE {
-    ?cheese :isMadeWithMilk ?milk.
-    ?milk a :RawMilk.
+    ?milk :isMilkUsedIn ?cheese;
+          a :RawMilk.
 
     OPTIONAL { ?milk rdfs:label ?milklabel }
     OPTIONAL { ?cheese rdfs:label ?cheeselabel }
@@ -99,7 +99,7 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label
 WHERE {
-    ?cheese :isMadeWithRawMaterial/rdfs:label "Sale di Cervia"@it.
+    ?cheese :isMadeWithRawMaterial/rdfs:label "Sale di Cervia"@it
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -120,24 +120,24 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?cheeselabel ?milk ?milklabel ?animal
 WHERE {
-    ?cheese :isMadeWithMilk ?milk.
+    ?cheese :isMadeWithMilk ?milk
     { 
-        ?milk a/rdfs:label "CowMilk"@en.
+        ?milk a/rdfs:label "CowMilk"@en
         VALUES ?animal { "Formaggio di mucca" }
     }
     UNION
     { 
-        ?milk a/rdfs:label "SheepMilk"@en.
+        ?milk a/rdfs:label "SheepMilk"@en
         VALUES ?animal { "Formaggio di pecora" }
     }
     UNION
     { 
-        ?milk a/rdfs:label "GoatMilk"@en.
+        ?milk a/rdfs:label "GoatMilk"@en
         VALUES ?animal { "Formaggio di capra" }
     }
     UNION
     { 
-        ?milk a/rdfs:label "BuffaloMilk"@en.
+        ?milk a/rdfs:label "BuffaloMilk"@en
         VALUES ?animal { "Formaggio di bufala" }
     }
 
@@ -160,9 +160,9 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT DISTINCT ?cheese ?label
 WHERE {
-    { ?cheese :isMadeWithRawMaterial/a :VegetalRennet. }
+    { ?cheese :isMadeWithRawMaterial/a :VegetalRennet }
     UNION
-    { ?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en. }
+    { ?cheese :isMadeWithMilk/a/rdfs:label "SkimmedMilk"@en }
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -182,21 +182,21 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label ?type
 WHERE {
-    { ?cheese a/rdfs:label "SoftCheese"@en. }
+    { ?cheese a/rdfs:label "SoftCheese"@en }
     UNION
-    { ?cheese a/rdfs:label "SemiSoftCheese"@en. }
+    { ?cheese a/rdfs:label "SemiSoftCheese"@en }
     {
-        ?cheese a/rdfs:label "BlueCheese"@en.
+        ?cheese a/rdfs:label "BlueCheese"@en
         VALUES ?type { "Formaggio erborinato" }
     }
     UNION
     {
-        ?cheese a/rdfs:label "SmearRipenedCheese"@en.
+        ?cheese a/rdfs:label "SmearRipenedCheese"@en
         VALUES ?type { "Formaggio a crosta lavata" }
     }
     UNION
     {
-        ?cheese a/rdfs:label "SoftRipenedCheese"@en.
+        ?cheese a/rdfs:label "SoftRipenedCheese"@en
         VALUES ?type { "Formaggio a crosta fiorita" }
     }
     
@@ -210,7 +210,7 @@ ORDER BY ?type
 ## Query 9
 
 Un consumatore molto interessato al processo produttivo dei vari formaggi che conosce vuole sapere se esistono formaggi che vengono prodotti a partire da altri formaggi.
-Per questo motivo, interroga la _knowledge base_ in tal senso.
+Per questo motivo, interroga la _knowledge base_ a questo scopo.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -227,7 +227,8 @@ ORDER BY ?label
 
 ## Query 10
 
-Il Comune di Bertinoro ha indetto un evento di promozione del territorio a tema formaggio, in collaborazione con i caseifici locali, in modo tale che questi mettano a disposizione le informazioni sui formaggi che sono prodotti all'interno del Comune.
+Il Comune di Bertinoro ha indetto un evento di promozione del territorio a tema formaggio, in collaborazione con i caseifici locali.
+Questi decidono quindi di mettere a disposizione le informazioni sui formaggi che sono prodotti all'interno del Comune.
 Sapendo questo, un partecipante all'evento decide di voler sapere quali sono i formaggi che sono prodotti dal caseificio "Mambelli".
 
 ```sql
@@ -236,12 +237,12 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label
 WHERE {
-    ?cheese a/rdfs:label "Cheese"@en.
+    ?cheese a/rdfs:label "Cheese"@en
   
     FILTER(REGEX(STR(?cheese), "Mambelli"))
   
     OPTIONAL {
-        ?cheese rdfs:label ?label.
+        ?cheese rdfs:label ?label
 
         FILTER(REGEX(?label, "Mambelli"))
     }
@@ -263,11 +264,11 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT DISTINCT ?city ?region (COUNT(?city) AS ?count)
 WHERE {
-    ?cheese :isProducedIn ?city.
+    [] :isProducedIn ?city
   
     SERVICE <https://dbpedia.org/sparql> {
-        ?region dbo:type dbr:Regions_of_Italy.
-        ?city dbo:region ?region.
+        ?region dbo:type dbr:Regions_of_Italy;
+                ^dbo:region ?city.
     }
 }
 GROUP BY ?city ?region
@@ -279,7 +280,7 @@ ORDER BY DESC(COUNT(?city))
 ## Query 12
 
 "Slow Food" è interessata a creare la nuova mappa dei formaggi certificati italiani, per promuovere la conoscenza sulle eccellenze italiane.
-Deve perciò raccogliere le informazioni in merito ai formaggi certificati che vengono attualmente prodotti in Italia, dividendoli per ciascuna regione.
+Deve perciò raccogliere le informazioni in merito ai formaggi certificati che vengono attualmente prodotti in Italia, dividendoli per ciascuna regione, assieme alle certificazioni che possiedono.
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -290,13 +291,13 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?region ?cheese ?cheeselabel ?name ?namelabel
 WHERE {
-    ?cheese :isProducedIn ?city.
-    ?cheese a/rdfs:label "ProtectedCheese"@en.
-    ?cheese food-upper:haDenominazione ?name.
-  
+    ?cheese :isProducedIn ?city;
+            a/rdfs:label "ProtectedCheese"@en;
+            food-upper:haDenominazione ?name.
+
     SERVICE <https://dbpedia.org/sparql> {
-        ?region dbo:type dbr:Regions_of_Italy.
-        ?city dbo:region ?region.
+        ?region dbo:type dbr:Regions_of_Italy;
+                ^dbo:region ?city.
     }
   
     OPTIONAL { ?cheese rdfs:label ?cheeselabel }
@@ -320,16 +321,16 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?cheeselabel ?city ?citylabel ?pit ?pitlabel
 WHERE {
-    ?cheese :hasAging ?aging.
-    ?aging :hasTakenPlaceIn ?city.
-    ?aging :isLocatedInEnvironment ?pit.
+    [] :isAgingOf ?cheese;
+       :hasTakenPlaceIn ?city;
+       :isLocatedInEnvironment ?pit.
     ?pit a/rdfs:label "Pit"@en.
   
     SERVICE <https://dbpedia.org/sparql> {
-        ?city dbo:province dbr:Province_of_Forlì-Cesena.
+        ?city dbo:province dbr:Province_of_Forlì-Cesena
     
         OPTIONAL {
-            ?city rdfs:label ?citylabel.
+            ?city rdfs:label ?citylabel
         
             FILTER(LANG(?citylabel) = "it")
         }
@@ -355,7 +356,8 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 ASK
 WHERE {
-    ?cheese a/rdfs:label "Cheese"@en.
-    FILTER NOT EXISTS { ?cheese :isMadeWithRawMaterial/a :AnimalRennet. }
+    ?cheese a/rdfs:label "Cheese"@en
+
+    FILTER NOT EXISTS { ?cheese :isMadeWithRawMaterial/a :AnimalRennet }
 }
 ```
