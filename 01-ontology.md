@@ -173,6 +173,8 @@ Questo estende la classe `FoodManifactureEnzyme` dell'ontologia "foodon" e quest
 Si è scelto inoltre di rappresentare ogni ingrediente come specializzazione del proprio `Food` di riferimento utilizzando le classi messe a disposizione da "foodon" e "uberon".
 La classe `Mold` invece, è stata introdotta come ingrediente per i formaggi che presentano muffe, ovvero quelli di tipo `MoldRipenedCheese`.
 Quest'ultima si specializza nelle classi: `SoftRipenedCheese`, `SmearRipenedCheese` e `BlueCheese`, le quali rappresentano rispettivamente i formaggi a "crosta fiorita", quelli a "crosta lavata" e infine quelli "muffettati".
+Per rappresentare un formaggio che contiene muffa è stato deciso di utilizzare, in realtà, due classi denominate `MoldRipenedCheese`.
+Tale ridondanza deriva dal fatto che una delle due è definita in "foodon", ma il concetto non corrisponde esattamente alla nostra modellazione. Perciò l'aggiunta di una nostra sottoclasse ci ha permesso di avere come specializzazioni `SoftRipenedCheese` e `BlueCheese`, cosa che non accade invece in "foodon".
 
 È stata considerata la possibilità che siano creati formaggi che appartengono a più di una sottoclasse di `MoldRipenedCheese` oppure a nessuna di esse.
 Per quanto riguarda invece le diverse materie prime e i diversi alimenti, è stato definito che le classi che le rappresentano sono disgiunte tra loro e queste coprono tutte le istanze di `Food`.
@@ -367,32 +369,57 @@ La proprietà `hasRipeningDuration` esprime una durata in giorni e dal momento c
 
 ## Certification
 <!-- Nicolas -->
-Il meccanismo delle certificazioni rappresenta una caratteristica molto importante all'interno dell'ontologia.
-Osservando il diagramma in figura emergono le seguenti classi: `ProtectedName` ovvero il concetto di certificazione di un prodotto,
-`ProtectedFood` ovvero un determinato cibo con una specifica certificazione, `ProtectedCheeseName` che rappresenta un formaggio con
-una certificazione e infine `ProtectedMilkRawMaterial` che rappresenta un latte certificato utilizzato nella produzione di
-un formaggio con una specifica certificazione.
+Il meccanismo delle certificazioni rappresenta un aspetto molto importante all'interno dell'ontologia.
+Osservando il diagramma in figura \ref{fig:cert}, si possono notare le seguenti classi: `ProtectedName`, ovvero il concetto di certificazione che un prodotto può avere, e `ProtectedFood`, ovvero un alimento che possiede una certificazione e per questo sottoclasse di `Food`.
 
-La distinzione tra `ProtectedRicotta` e `ProtectedCheese` deriva dal fatto che la ricotta non è classificata come formaggio, ma allo stesso tempo
-può vedersi riconosciuta una certificazione. Per questo motivo, seppur il concetto espresso sia il medesimo, si è deciso di separare in due classi
-distinte tale classificazione.
+Altre due classi che ricoprono un ruolo fondamentale sono `ProtectedRicotta` e `ProtectedCheese`, entrambe sottoclassi di `Cheese` e `ProtectedFood`.
+La distinzione tra le due deriva dal fatto che la ricotta non è classificata da parte del Ministero come formaggio, ma allo stesso tempo
+può vedersi riconosciuta una certificazione.
+Nonostante nella nostra modellazione la ricotta sia un tipo di formaggio, si è deciso comunque di separare in due classi
+distinte tali concetti. Per questo motivo, è stato definito un vincolo per la classe `ProtectedCheese` per cui è disgiunta dalla classe `ProtectedRicotta`.
 
-Analizzando la classe `ProtectedCheese` possiamo trovare diverse caratteristiche espresse su di essa sfruttando l'espressività di OWL, in particolare
-è stata definita una regola tale per cui un formaggio certificato può essere definito tale se è stato realizzato utilizzando un solo latte che
-anch'esso ha una certificazione. Con questo vincolo vogliamo catturare il concetto tale per cui un formaggio certificato deve poter essere realizzato
-con un solo latte (quindi non sono ammessi miscugli di tipologie di latte) e questo latte deve avere una certificazione. Un altro vincolo che è
-stato definito è che la classe `ProtectedCheese` è disgiunta con la classe `ProtectedRicotta` per il motivo sopra citato.
-Infine è stata definita una restrizione tale per cui la proprietà `hasProtectedName` può essere applicata solo alle classe `CheeseProtectedName` di cui
-`ProtectedCheese` ne è una sottoclasse.
+Analogamente a quanto fatto per i concetti di formaggio certificato e ricotta certificata, sono state definite due classi disgiunte tra loro chiamate `CheeseProtectedName` e `RicottaProtectedName`, entrambe sottoclassi di `ProtectedName`. Queste rappresentano una generica certificazione per un formaggio e una generica certificazione per una ricotta.
 
-Nel contesto delle certificazioni sono state definite due ObjectProperty: `hasProtectedName` e `isProtectedNameOf` dove una è l'inversa dell'altra.
-Per quanto riguarda la prima è stato definito come _domain_ la classe `ProtectedFood` e come _range_ `ProtectedName` ciò significa che ove questo
-predicato è applicato l'oggetto è considerato come un cibo certificato e l'oggetto è la certificazione stessa.
+Per i formaggi abbiamo individuato quattro tipi di certificazioni riconosciute dall'Unione Europea e dal _Ministero delle Politiche Agricole Alimentari e Forestali_. Queste sono la "Denominazione di Origine Protetta", la "Indicazione Geografica Protetta", la "Specialità Tradizionale Garantita" e i "Prodotti Agroalimentari Tradizionali". Queste sono state modellate rispettivamente dalle classi `ProtectedDesignationOrigin`, `ProtectedGeographicalIndication`, `TraditionalSpecialtyGuaranteed` e `TraditionalAgriFoodstuff`.
+Aver sfruttato l'ontologia messa a disposizione dal Ministero, ci ha permesso di abilitare l'interoperabilità di "Cheese Ontology" con eventuali altre ontologie che descrivono e rappresentano i prodotti che possono avere certificazioni.
 
-In figura \ref{fig:cert} è mostrata la struttura delle certificazioni.
+In tabella \ref{tab:cert} sono riportate le _data property_ relative a `ProtectedName` e `ProtectedFood`.
+
+```{=latex}
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|p{0.16\textwidth}|p{0.17\textwidth}|X|}
+    \hline
+    \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
+    hasProtectedName & ProtectedFood & ProtectedName & isProtectedNameOf \\ \hline
+ \end{tabularx}
+ \caption{\textit{ObjectProperty} relative al concetto di certificazione.}
+ \label{tab:cert}
+\end{table}
+```
+
+È stata definita la proprietà `hasProtectedName` che associa ad un alimento certificato la sua certificazione e perciò ha come _domain_ `ProtectedFood` e come _range_ `ProtectedName`.
+In particolare, se si utilizza come soggetto di una tripla un `CheeseProtectedName`, allora il `ProtectedName` associato è necessariamente un `CheeseProtectedName`.
+Questo è stato rappresentato tramite la seguente restrizione in OWL:
+
+```
+food-cheese:Formaggio rdfs:subClassOf
+                [ rdf:type owl:Restriction ;
+                owl:onProperty food-upper:haDenominazione ;
+                owl:allValuesFrom food-cheese:DenominazioneFormaggio
+                ] ;
+```
+
+Lo stesso vincolo è stato espresso tra `ProtectedRicotta` e `RicottaProtectedName`:
+
+```
+food-ricotta:Ricotta rdfs:subClassOf                                     
+                [ rdf:type owl:Restriction ;
+                owl:onProperty food-upper:haDenominazione ;
+                owl:allValuesFrom food-ricotta:DenominazioneRicotta
+                ] ;
+```
+
+In figura \ref{fig:cert} sono mostrati i legami tra le classi appartenenti al dominio delle certificazioni.
 
 ![Diagramma che mostra l'organizzazione delle certificazioni all'interno dell'ontologia.\label{fig:cert}](images/certification.svg){width=100%}
-
-Sfruttando l'ontologia messa a disposizione dal ministero, si è ricostruita la gerarchia delle certificazioni presenti in Italia.
-L'adozione di tale ontologia abilita l'interoperabilità di __cheese ontology__ con eventuali altre ontologie che descrivono e rappresentano altri
-prodotti che possono avere certificazioni sfruttando come ponte l'ontologia del ministero.
