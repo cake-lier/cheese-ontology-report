@@ -132,7 +132,7 @@ obo:FOODON_00002231 owl:equivalentClass [
 
 Queste ultime, assieme a `SoftCheese`, fanno parte di "foodon", eccetto la classe `MediumHardCheese`, che non essendo definita è stato necessario aggiungere nella "Cheese Ontology".
 
-Nella tabella \ref{tab:cheese} vengono riportate le object property relative alla classe `Cheese`.
+Nella tabella \ref{tab:cheese} vengono riportate le _object property_ relative alla classe `Cheese`.
 
 ```{=latex}
 \begin{table}[H]
@@ -142,7 +142,7 @@ Nella tabella \ref{tab:cheese} vengono riportate le object property relative all
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     hasTexture & Cheese & CheeseTexture & isTextureOf \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di formaggio.}
+ \caption{Le \textit{object property} relative al concetto di formaggio.}
  \label{tab:cheese}
 \end{table}
 ```
@@ -186,7 +186,7 @@ In tabella \ref{tab:ingredients} sono riportate le _object property_ relative ai
     isMadeWithMold & MoldRipened-Cheese & Mold & isMoldUsedIn \\ \hline
     isMadeWithMilk & Cheese & MilkRawMaterial & isMilkUsedIn \\ \hline
  \end{tabularx}
- \caption{\texttt{ObjectProperty} relative al concetto di ingrediente.}
+ \caption{Le \texttt{object property} relative al concetto di ingrediente.}
  \label{tab:ingredients}
 \end{table}
 ```
@@ -265,14 +265,14 @@ In figura \ref{fig:milk} viene mostrato il diagramma delle classi relativo al la
 ```{=latex}
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \begin{tabularx}{\textwidth}{|p{0.27\textwidth}|X|X|p{0.24\textwidth}|}
     \hline
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} & \textbf{Inverse of}  \\ \hline
     isMadeWithRawMaterial & Cheese & RawMaterial & isRawMaterialUsedIn \\ \hline 
     isMadeWithMilk &  & MilkRawMaterial & isMilkUsedIn \\ \hline
     hasSkimming & Milk & MilkSkimming & isSkimmingOf \\ \hline
  \end{tabularx}
- \caption{\textit{object property} relative al concetto di latte.}
+ \caption{Le \textit{object property} relative al concetto di latte.}
  \label{tab:milk}
 \end{table}
 ```
@@ -329,7 +329,7 @@ In tabella \ref{tab:env} sono riportate le _object property_ relative agli `Envi
     hasTakenPlaceIn & Event &  & isPlaceWhere \\ \hline
     isProducedIn & Food & & isProductionPlaceOf \\ \hline
  \end{tabularx}
- \caption{\textit{object property} relative al concetto di ambiente.}
+ \caption{Le \textit{object property} relative al concetto di ambiente.}
  \label{tab:env}
 \end{table}
 ```
@@ -351,7 +351,7 @@ In tabella \ref{tab:evdp} sono riportate le _data property_ relative agli `Event
     hasAgingDuration & Aging & xsd:positiveInteger \\ \hline
     hasRipeningDuration & Ripening & xsd:positiveInteger \\ \hline
  \end{tabularx}
- \caption{\textit{object property} relative al concetto di ambiente.}
+ \caption{Le \textit{object property} relative al concetto di ambiente.}
  \label{tab:evdp}
 \end{table}
 ```
@@ -390,7 +390,7 @@ In tabella \ref{tab:cert} sono riportate le _data property_ relative a `Protecte
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     hasProtectedName & ProtectedFood & ProtectedName & isProtectedNameOf \\ \hline
  \end{tabularx}
- \caption{\textit{object property} relative al concetto di certificazione.}
+ \caption{Le \textit{object property} relative al concetto di certificazione.}
  \label{tab:cert}
 \end{table}
 ```
