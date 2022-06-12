@@ -32,14 +32,16 @@ L'assaggiatore potrà quindi sapere quali formaggi sono disponibili, assieme all
 
 ```sql
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX food-upper: <http://w3id.org/food/ontology/disciplinare-upper/>
 PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
-SELECT ?cheese ?label ?protectedname 
+SELECT ?cheese ?label ?protectedname ?namelabel
 WHERE {
     ?cheese a/rdfs:label "ProtectedCheese"@en.
+    ?cheese food-upper:haDenominazione ?protectedname
 
-    OPTIONAL { ?cheese :hasProtectedName ?protectedname }
     OPTIONAL { ?cheese rdfs:label ?label }
+    OPTIONAL { ?protectedname rdfs:label ?namelabel }
 }
 ORDER BY ?label
 ```
@@ -55,7 +57,7 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?cheeselabel ?pit ?pitlabel
 WHERE {
-    ?cheese (:hasRipening|:hasAging)/:locatedInEnvironment ?pit.
+    ?cheese (:hasRipening|:hasAging)/:isLocatedInEnvironment ?pit.
     ?pit a/rdfs:label "Pit"@en.
 
     OPTIONAL { ?pit rdfs:label ?pitlabel }
@@ -97,7 +99,7 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?cheese ?label
 WHERE {
-    ?cheese :isMadeWithRawMaterial :SaleDiCervia.
+    ?cheese :isMadeWithRawMaterial/rdfs:label "Sale di Cervia"@it.
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
@@ -189,7 +191,7 @@ WHERE {
     }
     UNION
     {
-        ?cheese a :SmearRipenedCheese
+        ?cheese a/rdfs:label "SmearRipenedCheese"@en.
         VALUES ?type { "Formaggio a crosta lavata" }
     }
     UNION
@@ -200,7 +202,7 @@ WHERE {
     
     OPTIONAL { ?cheese rdfs:label ?label }
 }
-ORDER BY ?label
+ORDER BY ?type
 ```
 
 \newpage
@@ -261,7 +263,7 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT DISTINCT ?city ?region (COUNT(?city) AS ?count)
 WHERE {
-    ?cheese :producedIn ?city.
+    ?cheese :isProducedIn ?city.
   
     SERVICE <https://dbpedia.org/sparql> {
         ?region dbo:type dbr:Regions_of_Italy.
@@ -288,16 +290,16 @@ PREFIX : <https://github.com/nicolasfara/cheese-ontology/>
 
 SELECT ?region ?cheese ?cheeselabel ?name ?namelabel
 WHERE {
-    ?cheese :producedIn ?city.
-    ?cheese food-upper:haDenominazione ?name.
+    ?cheese :isProducedIn ?city.
     ?cheese a/rdfs:label "ProtectedCheese"@en.
+    ?cheese food-upper:haDenominazione ?name.
   
     SERVICE <https://dbpedia.org/sparql> {
         ?region dbo:type dbr:Regions_of_Italy.
         ?city dbo:region ?region.
     }
   
-    OPTIONAL { ?cheese rdfs:label ?cheeselabel. }
+    OPTIONAL { ?cheese rdfs:label ?cheeselabel }
     OPTIONAL { ?name rdfs:label ?namelabel }
 }
 ORDER BY ?cheeselabel
@@ -320,7 +322,7 @@ SELECT ?cheese ?cheeselabel ?city ?citylabel ?pit ?pitlabel
 WHERE {
     ?cheese :hasAging ?aging.
     ?aging :hasTakenPlaceIn ?city.
-    ?aging :locatedInEnvironment ?pit.
+    ?aging :isLocatedInEnvironment ?pit.
     ?pit a/rdfs:label "Pit"@en.
   
     SERVICE <https://dbpedia.org/sparql> {
@@ -333,8 +335,8 @@ WHERE {
         }
     }
   
-    OPTIONAL { ?cheese rdfs:label ?cheeselabel. }
-    OPTIONAL { ?pit rdfs:label ?pitlabel. }
+    OPTIONAL { ?cheese rdfs:label ?cheeselabel }
+    OPTIONAL { ?pit rdfs:label ?pitlabel }
 }
 ORDER BY ?citylabel
 ```

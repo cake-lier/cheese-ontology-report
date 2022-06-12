@@ -3,11 +3,13 @@
 ## Allineamenti con altre ontologie
 
 L'ontologia è stata realizzata partendo dalle altre ontologie i cui prefissi sono indicati in tabella \ref{tab:prefix}.
-Le più rilevanti sono "foodon" e "agrovoc" per quanto riguarda la modellazione dei concetti inerenti agli alimenti, in particolare al formaggio.
-L'ontologia "envo" è stata utilizzata per gli ambienti in cui sono realizzati i formaggi.
-Le ontologie "foodon" e "envo" sono parte del progetto "OBOFoundry" e sono quindi rappresentate dal prefisso "obo".
+Le più rilevanti sono "FOODON" e "AGROVOC" per quanto riguarda la modellazione dei concetti inerenti agli alimenti, in particolare al formaggio.
+L'ontologia "ENVO" è stata utilizzata per gli ambienti in cui sono realizzati i formaggi.
+Le ontologie "FOODON" e "ENVO" sono parte del progetto "OBOFoundry" e sono quindi rappresentate dal prefisso "obo".
 È stata utilizzata l'ontologia realizzata dal _Ministero delle Politiche Agricole Alimentari e Forestali_ per la definizione delle certificazioni e dei formaggi certificati.
-Questa è rappresntata dai prefissi "food-ita", "food-uppper", "food-cheese" e "food-ricotta". Infine è stata utilizzata l'ontologia "DBPedia", identificata dai prefissi "dbo" e "dbr", per modellare i luoghi di produzione, stagionatura e maturazione dei formaggi.
+Questa è rappresntata dai prefissi "food-ita", "food-upper", "food-cheese" e "food-ricotta". Infine è stata utilizzata l'ontologia "DBPedia", identificata dai prefissi "dbo" e "dbr", per modellare i luoghi di produzione, stagionatura e maturazione dei formaggi.
+
+Sono stati utilizzati anche "Dublin Core" e "Vocabulary for Annotating vocabulary descriptions", rappresentati rispettivamente dai prefissi "dcterms" e "vann", per aggiungere all'ontologia alcuni metadati come il titolo, gli autori, il prefisso consigliato quanto viene importata in altre ontologie e simili.
 
 ```{=latex}
 \begin{table}[H]
@@ -29,6 +31,8 @@ Questa è rappresntata dai prefissi "food-ita", "food-uppper", "food-cheese" e "
     food-upper & \texttt{http://w3id.org/food/ontology/disciplinare-upper/} \\ \hline
     food-cheese & \texttt{http://w3id.org/food/ontology/disciplinare-formaggio/} \\ \hline
     food-ricotta & \texttt{http://w3id.org/food/ontology/disciplinare-ricotta/} \\ \hline
+    dcterms & \texttt{http://purl.org/dc/terms/} \\ \hline
+    vann & \texttt{http://purl.org/vocab/vann/} \\ \hline
  \end{tabularx}
  \caption{Prefissi e namespace utilizzati all'interno dell'ontologia.}
  \label{tab:prefix}
@@ -92,14 +96,14 @@ In tabella \ref{tab:metrics} vengono sintetizzate le metriche relative alla "Che
     \centering
     \begin{tabularx}{\textwidth}{|X|X|}
     \hline
-    Axiom & 459  \\ \hline
-    Logical axiom count & 214 \\ \hline
-    Declaration axioms count & 149 \\ \hline
-    Class count & 74  \\ \hline
-    Object property count &  23  \\ \hline
-    Data property count & 2  \\ \hline
-    Individual count & 49  \\ \hline
-    Annotation Property count & 4\\ \hline
+    Axiom & 1099 \\ \hline
+    Logical axiom count & 399 \\ \hline
+    Declaration axioms count & 181 \\ \hline
+    Class count & 70 \\ \hline
+    Object property count & 24 \\ \hline
+    Data property count & 2 \\ \hline
+    Individual count & 79 \\ \hline
+    Annotation Property count & 10 \\ \hline
  \end{tabularx}
  \caption{Metriche relative all'ontologia.}
  \label{tab:metrics}
