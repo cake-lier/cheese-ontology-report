@@ -390,7 +390,7 @@ In tabella \ref{tab:cert} sono riportate le _data property_ relative a `Protecte
     \textbf{ObjectProperty} & \textbf{Domain} & \textbf{Range} &\textbf{Inverse Of}  \\ \hline
     hasProtectedName & ProtectedFood & ProtectedName & isProtectedNameOf \\ \hline
  \end{tabularx}
- \caption{Le \textit{object property} relative al concetto di certificazione.}
+     \caption{Le \textit{object property} relative al concetto di certificazione.}
  \label{tab:cert}
 \end{table}
 ```
